@@ -1,0 +1,31 @@
+# eclipse
+bin/
+*.launch
+.settings/
+.metadata/
+.classpath
+.project
+eclipse/
+.apt_generated/
+.apt_generated_tests/
+
+# vs code
+.vscode/
+
+# idea
+out/
+*.ipr
+*.iws
+*.iml
+.idea/
+
+# gradle
+build/
+.gradle/
+
+# Other
+logs/
+log/
+gradle.properties
+run/
+.factorypath

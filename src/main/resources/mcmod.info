@@ -1,0 +1,11 @@
+[
+  {
+    "modid": "craftthesun",
+    "name": "CraftTheSun",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "authorList": [
+      "MJaroslav"
+    ]
+  }
+]
