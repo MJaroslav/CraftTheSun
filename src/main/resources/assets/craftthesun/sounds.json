@@ -1,0 +1,8 @@
+{
+    "other.estus": {
+        "category": "neutral",
+        "sounds": [
+            "other/estus"
+        ]
+    }
+}

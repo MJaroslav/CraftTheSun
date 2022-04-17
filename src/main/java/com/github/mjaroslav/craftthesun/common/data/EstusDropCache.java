@@ -1,74 +1,69 @@
 package com.github.mjaroslav.craftthesun.common.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
+import com.github.mjaroslav.craftthesun.common.item.ModItems;
+
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import lombok.val;
 import lombok.var;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.UnknownNullability;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class EstusDropCache implements IExtendedEntityProperties {
-    public static final String IDENTIFIER = "EstusDropCache";
+public class EstusDropCache {
     public static final String TAG_ESTUS_DROP_CACHE = "estus_drop_cache";
-    public static final String TAG_SIZE = "size";
     public static final String TAG_SLOT = "slot";
-    public static final String TAG_ESTUS_STACK = "estusStack";
+    public static final String TAG_STACK = "stack";
 
-    public final Map<Integer, ItemStack> CACHE = new HashMap<>();
+    private final Map<Integer, ItemStack> CACHE = new HashMap<>();
 
-    @Override
-    public void saveNBTData(@NotNull NBTTagCompound compound) {
-        val list = new NBTTagList();
-        CACHE.forEach((slot, estusStack) -> {
-            val entry = new NBTTagCompound();
-            val estusStackTag = new NBTTagCompound();
-            entry.setInteger(TAG_SLOT, slot);
-            estusStack.writeToNBT(estusStackTag);
-            entry.setTag(TAG_ESTUS_STACK, estusStackTag);
-            list.appendTag(entry);
-        });
-        compound.setTag(TAG_ESTUS_DROP_CACHE, list);
-    }
-
-    @Override
-    public void loadNBTData(@NotNull NBTTagCompound compound) {
+    public void loadFromNBT(@NotNull NBTTagCompound compound) {
         CACHE.clear();
-        val list = compound.getTagList(TAG_ESTUS_DROP_CACHE, 10);
-        for (var i = 0; i < list.tagCount(); i++) {
-            val entry = list.getCompoundTagAt(i);
-            val slot = entry.getInteger(TAG_SLOT);
-            val estusStack = ItemStack.loadItemStackFromNBT(entry.getCompoundTag(TAG_ESTUS_STACK));
-            CACHE.put(slot, estusStack);
+        val cacheTag = compound.getTagList(TAG_ESTUS_DROP_CACHE, 10);
+        for (var i = 0; i < cacheTag.tagCount(); i++) {
+            val entryTag = cacheTag.getCompoundTagAt(i);
+            CACHE.put(entryTag.getInteger(TAG_SLOT),
+                    ItemStack.loadItemStackFromNBT(entryTag.getCompoundTag(TAG_STACK)));
         }
     }
 
-    @Override
-    public void init(@NotNull Entity entity, @NotNull World world) {
+    public void saveToNBT(@NotNull NBTTagCompound compound) {
+        val cacheTag = new NBTTagList();
+        CACHE.forEach((slot, stack) -> {
+            val entryTag = new NBTTagCompound();
+            entryTag.setInteger(TAG_SLOT, slot);
+            val stackTag = new NBTTagCompound();
+            stack.writeToNBT(stackTag);
+            entryTag.setTag(TAG_STACK, stackTag);
+            cacheTag.appendTag(entryTag);
+        });
+        compound.setTag(TAG_ESTUS_DROP_CACHE, cacheTag);
     }
 
-    @UnknownNullability
-    public static EstusDropCache get(@NotNull EntityPlayer player) {
-        return (EstusDropCache) player.getExtendedProperties(IDENTIFIER);
-    }
-
-    public static void clone(@Nullable EntityPlayer original, @Nullable EntityPlayer current) {
-        if (original != null && current != null) {
-            val nbt = new NBTTagCompound();
-            get(original).saveNBTData(nbt);
-            get(current).loadNBTData(nbt);
+    public void onPlayerDeathEvent(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
+        if (!player.worldObj.isRemote) for (var slot = 0; slot < player.inventory.getSizeInventory(); slot++) {
+            val stack = player.inventory.getStackInSlot(slot);
+            if (stack != null && stack.getItem() == ModItems.estusFlask) {
+                CACHE.put(slot, stack.copy());
+                player.inventory.setInventorySlotContents(slot, null);
+            }
         }
     }
 
-    public static void register(@NotNull EntityPlayer player) {
-        player.registerExtendedProperties(IDENTIFIER, new EstusDropCache());
+    public void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {
+        if (!event.player.worldObj.isRemote) {
+            CACHE.forEach((slot, estusStack) -> {
+                ItemEstusFlask.refillEstus(estusStack);
+                event.player.inventory.setInventorySlotContents(slot, estusStack);
+            });
+            CACHE.clear();
+        }
     }
 }
