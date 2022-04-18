@@ -50,4 +50,7 @@ public class NetworkHandler {
         wrapper.sendToServer(message);
     }
 
+    public void sendEstusFX(@NotNull EntityPlayer player) {
+        sendToAllAround(new S2CEstusFXPacket(player), player, 64);
+    }
 }

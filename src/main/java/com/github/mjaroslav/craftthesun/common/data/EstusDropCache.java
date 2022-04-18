@@ -60,7 +60,7 @@ public class EstusDropCache {
     public void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {
         if (!event.player.worldObj.isRemote) {
             CACHE.forEach((slot, estusStack) -> {
-                ItemEstusFlask.refillEstus(estusStack);
+                ItemEstusFlask.refillEstusFlask(estusStack);
                 event.player.inventory.setInventorySlotContents(slot, estusStack);
             });
             CACHE.clear();

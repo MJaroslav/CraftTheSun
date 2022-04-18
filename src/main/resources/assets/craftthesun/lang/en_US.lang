@@ -1,1 +1,6 @@
 item.craftthesun:estus_flask.name=Estus Flask
+item.craftthesun:estus_flask.empty.name=Empty Estus Flask
+item.craftthesun:estus_flask.infinity.name=Bottomless Estus Flask
+
+tooltip.craftthesun:estus_flask.count.text=Estus count %s/%s
+tooltip.craftthesun:estus_flask.infinity.text=Infinity estus
