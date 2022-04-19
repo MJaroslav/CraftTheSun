@@ -61,6 +61,12 @@ artifacts {
     archives sourceJar, devJar
 }
 
+configurations {
+    shade
+    
+    compile.extendsFrom(shade)
+}
+
 minecraft {
     version = "${buildprop.game_version}-${buildprop.forge_version}-${buildprop.game_version}"
     runDir = buildprop.run_dir
@@ -72,6 +78,7 @@ dependencies {
     compile "codechicken:CodeChickenCore:${buildprop.ccc_version}:dev"
     compile "codechicken:NotEnoughItems:${buildprop.nei_version}:dev"
     compile "mcp.mobius.waila:Waila:${buildprop.waila_version}"
+    shade "com.github.MJaroslav.Reflectors:library:${buildprop.reflectors_version}"
 
     compileOnly "org.jetbrains:annotations:${buildprop.jetbrains_annotations_version}"
 
@@ -99,10 +106,15 @@ processResources {
 tasks.withType(Jar)*.doFirst {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     includeEmptyDirs = false
-    if ((name == "jar" || name == "devJar" || name == "sourcesJar") && buildprop.coremod.toBoolean())
-        manifest {
-            // TODO: Don't forged about -Dfml.coreMods.load
-            attributes "FMLCorePlugin": "${project.group}.${project.name.replace(" ", "").toLowerCase()}.asm.${project.name.replace(" ", "")}Plugin"
-            attributes "FMLCorePluginContainsFMLMod": "true"
+    if((name == "jar" || name == "devJar" || name == "sourcesJar")) {
+        if (buildprop.coremod.toBoolean())
+            manifest {
+                // TODO: Don't forged about -Dfml.coreMods.load
+                attributes "FMLCorePlugin": "${project.group}.${project.name.replace(" ", "").toLowerCase()}.asm.${project.name.replace(" ", "")}Plugin"
+                attributes "FMLCorePluginContainsFMLMod": "true"
+            }
+        configurations.shade.each { dep ->
+            from project.zipTree(dep)
         }
+    }
 }

@@ -1,5 +1,6 @@
 package com.github.mjaroslav.craftthesun.common.handler;
 
+import com.github.mjaroslav.craftthesun.client.audio.PlayerFallSound;
 import com.github.mjaroslav.craftthesun.common.data.CraftTheSunEEP;
 import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
 import com.github.mjaroslav.craftthesun.common.data.EstusDropCache;
@@ -10,17 +11,27 @@ import com.github.mjaroslav.craftthesun.common.util.ModUtils;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.val;
 import lombok.var;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ITickableSound;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemFood;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -48,6 +59,35 @@ public class PlayerEventHandler {
                 val stack = event.entityPlayer.inventory.getStackInSlot(index);
                 if (stack != null && stack.getItem() == ModItems.estusFlask) ItemEstusFlask.refillEstusFlask(stack);
             }
+    }
+
+    private final Map<String, Boolean> SOUND_PLAYED = new HashMap<>();
+
+    @SubscribeEvent
+    public void onPlayerTickEvent(@NotNull PlayerTickEvent event) {
+        if (event.phase == Phase.START) return;
+        if (!event.player.worldObj.isRemote) {
+            if (event.player.worldObj.getTotalWorldTime() % 20 == 0) {
+                event.player.getFoodStats().setFoodLevel(18);
+                event.player.getFoodStats().setFoodSaturationLevel(18);
+            }
+        } else {
+            val falling = !event.player.onGround;
+            if (falling && !SOUND_PLAYED.getOrDefault(event.player.getCommandSenderName(), false))
+                if (!event.player.capabilities.isFlying && (event.player.posY
+                        - event.player.worldObj.getHeightValue(event.player.serverPosX, event.player.serverPosZ) > 24f)
+                        && event.player.motionY < 0)
+                    playPlayerFallSound(event.player);
+            if (!falling) SOUND_PLAYED.put(event.player.getCommandSenderName(), false);
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void playPlayerFallSound(@NotNull EntityPlayer player) {
+        Minecraft.getMinecraft().getSoundHandler().playSound(new PlayerFallSound(player));
+        SOUND_PLAYED.put(player.getCommandSenderName(), true);
+//        player.worldObj.playSoundAtEntity(player, "craftthesun:ds.random.player.fall", 1F,
+//                player.worldObj.rand.nextFloat() * 0.1F + 0.9F);
     }
 
     @SubscribeEvent

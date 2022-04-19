@@ -1,38 +1,26 @@
 package com.github.mjaroslav.craftthesun.asm;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraft.launchwrapper.IClassTransformer;
 
-import java.util.Map;
+import com.github.mjaroslav.craftthesun.asm.reflector.EntityPlayerReflector;
+import com.github.mjaroslav.reflectors.v2.Reflectors;
+import com.github.mjaroslav.reflectors.v2.Reflectors.FMLLoadingPluginAdapter;
 
 @IFMLLoadingPlugin.Name("CraftTheSunPlugin")
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 @IFMLLoadingPlugin.SortingIndex(1001)
-public class CraftTheSunPlugin implements IFMLLoadingPlugin {
-    public static boolean deobfuscated;
-
+public class CraftTheSunPlugin extends FMLLoadingPluginAdapter implements IFMLLoadingPlugin, IClassTransformer {
     @Override
     public String[] getASMTransformerClass() {
-        // TODO: Set transformer class
-        return null;
+        return new String[] { getClass().getName() };
     }
 
     @Override
-    public String getModContainerClass() {
-        return null;
+    public byte[] transform(String name, String transformedName, byte[] basicClass) {
+        if (transformedName.equals("net.minecraft.entity.player.EntityPlayer"))
+            return Reflectors.reflectClass(basicClass, transformedName, EntityPlayerReflector.class.getName());
+        return basicClass;
     }
 
-    @Override
-    public String getSetupClass() {
-        return null;
-    }
-
-    @Override
-    public void injectData(Map<String, Object> data) {
-        deobfuscated = ((Boolean) data.get("runtimeDeobfuscationEnabled"));
-    }
-
-    @Override
-    public String getAccessTransformerClass() {
-        return null;
-    }
 }

@@ -65,7 +65,7 @@ public class ItemEstusFlask extends Item {
     @Override
     public boolean showDurabilityBar(@NotNull ItemStack stack) {
         val container = EstusContainer.getFromStackOrDefault(stack);
-        return !container.isInfinity() && !container.hasEstus();
+        return !container.isInfinity() && container.hasEstus() && !container.isMax();
     }
 
     @Override

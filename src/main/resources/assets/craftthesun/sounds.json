@@ -1,8 +1,37 @@
 {
-    "other.estus": {
+    "ds.estus": {
         "category": "neutral",
         "sounds": [
-            "other/estus"
+            "ds/estus"
+        ]
+    },
+    "ds.random.player.hurt": {
+        "category": "neutral",
+        "sounds": [
+            "ds/random/player/hurt/0",
+            "ds/random/player/hurt/1",
+            "ds/random/player/hurt/2",
+            "ds/random/player/hurt/3",
+            "ds/random/player/hurt/4",
+            "ds/random/player/hurt/5",
+            "ds/random/player/hurt/6",
+            "ds/random/player/hurt/7",
+            "ds/random/player/hurt/8",
+            "ds/random/player/hurt/9"
+        ]
+    },
+    "ds.random.player.die": {
+        "category": "neutral",
+        "sounds": [
+            "ds/random/player/die/0",
+            "ds/random/player/die/1"
+        ]
+    },
+    "ds.random.player.fall": {
+        "category": "neutral",
+        "sounds": [
+            "ds/random/player/fall/0",
+            "ds/random/player/fall/1"
         ]
     }
 }

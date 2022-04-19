@@ -48,6 +48,10 @@ public class EstusContainer {
         return infinity || count > 0;
     }
 
+    public boolean isMax() {
+        return count >= maxCount;
+    }
+
     public void saveToNBT(@NotNull NBTTagCompound compound) {
         val containerTag = new NBTTagCompound();
         containerTag.setInteger(TAG_COUNT, count);
