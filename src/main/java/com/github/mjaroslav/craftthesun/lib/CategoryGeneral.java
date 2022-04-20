@@ -8,6 +8,7 @@ import mjaroslav.mcmods.mjutils.module.ConfigurationProperty;
 public class CategoryGeneral {
     @ConfigurationCategory(name = "client", comment = "Cosmetic settings")
     public static class CategoryClient {
+	@ConfigurationCategory(name = "bossbar", comment = "DS like boss bar settings")
         public static class CategoryBossBar {
             @ConfigurationProperty(comment = "Replace vanilla boss bar with DS like", defaultBoolean = true)
             public static boolean enable;

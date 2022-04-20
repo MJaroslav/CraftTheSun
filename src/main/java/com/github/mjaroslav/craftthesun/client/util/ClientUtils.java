@@ -74,7 +74,7 @@ public class ClientUtils {
     }
 
     public void tryReplaceBossBar(@NotNull RenderGameOverlayEvent.Pre event) {
-        if (event.type != RenderGameOverlayEvent.ElementType.BOSSHEALTH &&
+        if (event.type != RenderGameOverlayEvent.ElementType.BOSSHEALTH ||
                 !CategoryGeneral.CategoryClient.CategoryBossBar.enable)
             return;
         GameOverlayReplacer.drawBossBar(event.resolution);

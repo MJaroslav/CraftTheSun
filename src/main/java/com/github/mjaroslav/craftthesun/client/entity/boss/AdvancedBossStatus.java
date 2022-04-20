@@ -40,12 +40,13 @@ public class AdvancedBossStatus {
         });
         STATUSES.entrySet().removeIf(entry -> {
             entry.getValue().timer--;
-            if (entry.getValue().timer <= 0 && !BOSSES.containsKey(entry.getKey()))
-                return true;
-            else {
-                entry.getValue().timer = 100;
+            if (entry.getValue().timer <= 0)
+                if (BOSSES.containsKey(entry.getKey())) {
+                    entry.getValue().timer = 100;
+                    return false;
+                } else return true;
+            else
                 return false;
-            }
         });
     }
 

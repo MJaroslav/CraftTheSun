@@ -58,6 +58,7 @@ public class EstusContainer {
         containerTag.setInteger(TAG_COUNT, count);
         containerTag.setInteger(TAG_MAX_COUNT, maxCount);
         containerTag.setBoolean(TAG_INFINITY, infinity);
+        containerTag.setBoolean(TAG_EXTRA, extra);
         compound.setTag(TAG_ESTUS_CONTAINER, containerTag);
     }
 
@@ -66,6 +67,7 @@ public class EstusContainer {
         count = containerTag.getInteger(TAG_COUNT);
         maxCount = containerTag.getInteger(TAG_MAX_COUNT);
         infinity = containerTag.getBoolean(TAG_INFINITY);
+        extra = containerTag.getBoolean(TAG_EXTRA);
     }
 
     public static boolean hasEstus(@NotNull ItemStack stack) {

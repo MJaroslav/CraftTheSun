@@ -12,6 +12,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import org.jetbrains.annotations.NotNull;
+import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LivingEventHandler {
@@ -31,10 +32,8 @@ public class LivingEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onLivingDropEventLowest(@NotNull LivingDropsEvent event) {
+	CommonUtils.tryAddEstusToFoodDrop(event);
 
-        for(var entityItem : event.drops) {
-
-        }
     }
     public void register() {
         MinecraftForge.EVENT_BUS.register(this);
