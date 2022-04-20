@@ -1,17 +1,16 @@
 package com.github.mjaroslav.craftthesun.common.data;
 
+import lombok.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 import org.jetbrains.annotations.UnknownNullability;
 
-import lombok.*;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EstusContainer {
@@ -19,12 +18,14 @@ public class EstusContainer {
     public static final String TAG_COUNT = "count";
     public static final String TAG_MAX_COUNT = "max_count";
     public static final String TAG_INFINITY = "infinity";
+    public static final String TAG_EXTRA = "extra";
 
     @Range(from = 0, to = Integer.MAX_VALUE)
     private int count;
     @Range(from = 1, to = Integer.MAX_VALUE)
     private int maxCount;
     private boolean infinity = false;
+    private boolean extra = false;
 
     public boolean decrease(boolean doReal) {
         val flag = count - 1 > -1 || infinity;
@@ -37,7 +38,7 @@ public class EstusContainer {
     }
 
     public boolean hasExtraCount() {
-        return infinity ? false : count > maxCount;
+        return !infinity && count > maxCount;
     }
 
     public int getExtraCount() {
@@ -73,7 +74,7 @@ public class EstusContainer {
 
     /**
      * Do check for container before!
-     * 
+     *
      * @param stack  stack with EstusConrainer. Container MUST be in stack.
      * @param doReal save new value, use false for creative count infinity.
      * @return {@link EstusContainer#decrease(boolean)} for container in stack.
@@ -114,19 +115,28 @@ public class EstusContainer {
     }
 
     public static EstusContainer createDefault() {
-        return new EstusContainer(5, 5, false);
+        return new EstusContainer(5, 5, false, false);
     }
 
     public static EstusContainer createInfinity() {
-        return new EstusContainer(1, 1, true);
+        return new EstusContainer(1, 1, true, false);
+    }
+
+    public static EstusContainer createExtra() {
+        return new EstusContainer(1, 1, false, true);
     }
 
     public static EstusContainer createCustomFull(@Range(from = 1, to = Integer.MAX_VALUE) int maxCount) {
-        return new EstusContainer(maxCount, maxCount, false);
+        return new EstusContainer(maxCount, maxCount, false, false);
     }
 
     public static EstusContainer createCustom(@Range(from = 0, to = Integer.MAX_VALUE) int count,
-            @Range(from = 1, to = Integer.MAX_VALUE) int maxCount) {
-        return new EstusContainer(count, maxCount, false);
+                                              @Range(from = 1, to = Integer.MAX_VALUE) int maxCount) {
+        return new EstusContainer(count, maxCount, false, false);
+    }
+
+    public static void removeEstusContainer(@NotNull ItemStack stack) {
+        if(hasEstusContainer(stack))
+            stack.getTagCompound().removeTag(TAG_ESTUS_CONTAINER);
     }
 }
