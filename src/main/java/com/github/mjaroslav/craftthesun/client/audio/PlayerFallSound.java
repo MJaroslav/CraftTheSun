@@ -1,11 +1,9 @@
 package com.github.mjaroslav.craftthesun.client.audio;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class PlayerFallSound extends MovingSound {
     private final EntityPlayer player;

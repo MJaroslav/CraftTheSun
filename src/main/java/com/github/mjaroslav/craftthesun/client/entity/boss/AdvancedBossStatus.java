@@ -1,16 +1,14 @@
-package com.github.mjaroslav.craftthesun.common.entity.boss;
-
-import java.util.*;
-
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NotNull;
+package com.github.mjaroslav.craftthesun.client.entity.boss;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 // TODO: Remade this shit
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,7 +17,6 @@ public class AdvancedBossStatus {
     public static final AdvancedBossStatus INSTANCE = new AdvancedBossStatus();
 
     private final Map<Integer, Entity> BOSSES = new HashMap<>();
-
     private final Map<Integer, BossStatus> STATUSES = new HashMap<>();
 
     public void addBoss(@NotNull Entity entity) {
@@ -43,7 +40,12 @@ public class AdvancedBossStatus {
         });
         STATUSES.entrySet().removeIf(entry -> {
             entry.getValue().timer--;
-            return entry.getValue().timer <= 0 && !BOSSES.containsKey(entry.getKey());
+            if (entry.getValue().timer <= 0 && !BOSSES.containsKey(entry.getKey()))
+                return true;
+            else {
+                entry.getValue().timer = 100;
+                return false;
+            }
         });
     }
 

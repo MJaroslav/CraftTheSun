@@ -72,12 +72,12 @@ minecraft {
     runDir = buildprop.run_dir
     replace '@VERSION@', project.version
 }
-
 dependencies {
     compile "codechicken:CodeChickenLib:${buildprop.ccl_version}:dev"
     compile "codechicken:CodeChickenCore:${buildprop.ccc_version}:dev"
     compile "codechicken:NotEnoughItems:${buildprop.nei_version}:dev"
     compile "mcp.mobius.waila:Waila:${buildprop.waila_version}"
+    compile "com.github.MJaroslav:MJUtils:${buildprop.mjutils_version}"
     shade "com.github.MJaroslav.Reflectors:library:${buildprop.reflectors_version}"
 
     compileOnly "org.jetbrains:annotations:${buildprop.jetbrains_annotations_version}"

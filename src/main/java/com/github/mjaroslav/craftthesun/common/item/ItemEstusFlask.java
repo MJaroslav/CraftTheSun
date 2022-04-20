@@ -1,30 +1,20 @@
 package com.github.mjaroslav.craftthesun.common.item;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
-import lombok.var;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.*;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
-import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
-import com.github.mjaroslav.craftthesun.common.network.packet.S2CEstusFXPacket;
-import com.github.mjaroslav.craftthesun.common.util.ModUtils;
 
 import java.util.List;
 
@@ -88,7 +78,7 @@ public class ItemEstusFlask extends Item {
     @Override
     public ItemStack onEaten(@NotNull ItemStack stack, @NotNull World world, @NotNull EntityPlayer player) {
         if (EstusContainer.decreaseFromStack(stack, !player.capabilities.isCreativeMode) && !world.isRemote) {
-            ModUtils.doEstusEffects(player);
+            CommonUtils.doEstusEffects(player);
             // TODO: Do estus shit
             player.heal(8);
             if (!EstusContainer.hasEstus(stack)) stack.setItemDamage(0);

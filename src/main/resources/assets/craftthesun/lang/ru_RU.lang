@@ -4,3 +4,4 @@ item.craftthesun:estus_flask.infinity.name=Бездонная Фляга Эст�
 
 tooltip.craftthesun:estus_flask.count.text=Количество эстуса %s/%s
 tooltip.craftthesun:estus_flask.infinity.text=Бесконечный эстус
+tooltip.craftthesun:estus_flask.extra.text=Этот предмет содержит немного эстуса

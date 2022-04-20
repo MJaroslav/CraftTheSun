@@ -1,7 +1,8 @@
 package com.github.mjaroslav.craftthesun.common.handler;
 
 import com.github.mjaroslav.craftthesun.common.data.CraftTheSunEEP;
-import com.github.mjaroslav.craftthesun.common.util.ModUtils;
+import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
@@ -9,6 +10,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone;
@@ -32,17 +34,17 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public void onPlayerWakeUpEvent(@NotNull PlayerWakeUpEvent event) {
         if (!event.entityPlayer.worldObj.isRemote && !event.wakeImmediatly && !event.updateWorld)
-            ModUtils.tryRefillEstusFlasks(event.entityPlayer);
+            CommonUtils.tryRefillEstusFlasks(event.entityPlayer);
     }
 
     @SubscribeEvent
     public void onPlayerTickEvent(@NotNull PlayerTickEvent event) {
-        ModUtils.tryHardSetHungerValue(event);
+        CommonUtils.tryHardSetHungerValue(event);
     }
 
     @SubscribeEvent
     public void onPlayerUseItemEventFinish(@NotNull PlayerUseItemEvent.Finish event) {
-        ModUtils.tryTakeEstusFromItemInUse(event);
+        CommonUtils.tryTakeEstusFromItemInUse(event);
     }
 
     public void onPlayerConstructing(@NotNull EntityConstructing event, @NotNull EntityPlayer player) {
@@ -53,5 +55,10 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public void onClone(@NotNull Clone event) {
         CraftTheSunEEP.clone(event.original, event.entityPlayer);
+    }
+
+    public void register() {
+        MinecraftForge.EVENT_BUS.register(this);
+        FMLCommonHandler.instance().bus().register(this);
     }
 }

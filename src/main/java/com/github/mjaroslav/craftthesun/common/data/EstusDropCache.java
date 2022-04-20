@@ -6,7 +6,7 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
-import com.github.mjaroslav.craftthesun.common.item.ModItems;
+import com.github.mjaroslav.craftthesun.common.init.ModItems;
 
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import lombok.val;

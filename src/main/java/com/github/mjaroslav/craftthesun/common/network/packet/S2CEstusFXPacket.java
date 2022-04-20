@@ -1,21 +1,18 @@
 package com.github.mjaroslav.craftthesun.common.network.packet;
 
-import org.jetbrains.annotations.NotNull;
-
-import com.github.mjaroslav.craftthesun.client.particle.EntityEstusFX;
-
+import com.github.mjaroslav.craftthesun.CraftTheSunMod;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import lombok.NoArgsConstructor;
 import lombok.val;
-import lombok.var;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
+import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
+@Deprecated
 public class S2CEstusFXPacket extends AbstractPacket<S2CEstusFXPacket> {
     private String username;
 
@@ -27,12 +24,7 @@ public class S2CEstusFXPacket extends AbstractPacket<S2CEstusFXPacket> {
     @Override
     public void handleClientSide(@NotNull S2CEstusFXPacket message, @NotNull EntityClientPlayerMP player) {
         val target = player.worldObj.getPlayerEntityByName(message.username);
-        for (var i = 0; i < 360; i += 4) {
-            val fx = new EntityEstusFX(player.worldObj, target, i);
-            fx.setColor(0xFFFF00);
-            fx.setFadeColor(0xFF3100);
-            Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-        }
+        CraftTheSunMod.proxy.spawnParticle("estus", 0, 0, 0, player);
     }
 
     @Override
