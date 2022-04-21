@@ -8,7 +8,7 @@ import mjaroslav.mcmods.mjutils.module.ConfigurationProperty;
 public class CategoryGeneral {
     @ConfigurationCategory(name = "client", comment = "Cosmetic settings")
     public static class CategoryClient {
-	@ConfigurationCategory(name = "bossbar", comment = "DS like boss bar settings")
+        @ConfigurationCategory(name = "bossbar", comment = "DS like boss bar settings")
         public static class CategoryBossBar {
             @ConfigurationProperty(comment = "Replace vanilla boss bar with DS like", defaultBoolean = true)
             public static boolean enable;
@@ -47,6 +47,9 @@ public class CategoryGeneral {
         @ConfigurationProperty(comment = "Chance to add estus to mob ItemFood drop in percent, use 0 for disable", defaultInt = 5, minInt = 0, maxInt = 100)
         public static int estusInFoodDropChance;
 
+        @ConfigurationProperty(comment = "Disable natural regeneration: -1 for disable feature, 0 for all players, 1 for common human players, 2 for all undead players, 3 for hollow undead players, 4 for human undead players", defaultInt = 2, minInt = -1, maxInt = 4)
+        public static int disableNaturalRegenerationFor;
+
         @ConfigurationCategory(name = "hunger", comment = "Hunger system settings")
         public static class CategoryHunger {
             @ConfigurationProperty(comment = "Enable hunger tweaks, required for all category properties", defaultBoolean = true)
@@ -64,7 +67,7 @@ public class CategoryGeneral {
             @ConfigurationProperty(comment = "Delay in ticks for resetting hunger and saturation values for players with fixed hunger value", minInt = 0, maxInt = 200, defaultInt = 20)
             public static int setHungerValueDelay;
 
-            @ConfigurationProperty(comment = "Fix hunger value for: -1 for disable, 0 for all players, 1 for all undead players, 2 for hollow undead players, 3 for human undead players", defaultInt = 1, minInt = -1, maxInt = 3)
+            @ConfigurationProperty(comment = "Fix hunger value for: -1 for disable, 0 for all players, 1 for all common human players, 2 for all undead players, 3 for hollow undead players, 4 for human undead players", defaultInt = 2, minInt = -1, maxInt = 4)
             public static int fixHungerValueFor;
         }
     }

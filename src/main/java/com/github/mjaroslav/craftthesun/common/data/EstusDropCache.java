@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EstusDropCache {
+public final class EstusDropCache {
     public static final String TAG_ESTUS_DROP_CACHE = "estus_drop_cache";
     public static final String TAG_SLOT = "slot";
     public static final String TAG_STACK = "stack";

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Range;
 
 @Data
 @NoArgsConstructor
-public class SyncData {
+public final class SyncData {
     public static final String TAG_SYNC_DATA = "sync_data";
     public static final String TAG_TYPE = "type";
     private boolean changed = false;
@@ -45,8 +45,11 @@ public class SyncData {
     }
 
     @RequiredArgsConstructor
+    @Getter
     public enum PlayerType {
-        REAL_HUMAN, HOLLOW, HUMAN;
+        REAL_HUMAN(false), HOLLOW(true), HUMAN(true);
+
+        private final boolean undead;
 
         public static PlayerType getById(@Range(from = 0, to = 2) int ordinal) {
             for (var type : values())

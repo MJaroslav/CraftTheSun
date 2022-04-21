@@ -3,7 +3,7 @@ package com.github.mjaroslav.craftthesun.common.util;
 import com.github.mjaroslav.craftthesun.CraftTheSunMod;
 import com.github.mjaroslav.craftthesun.common.data.CraftTheSunEEP;
 import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
-import com.github.mjaroslav.craftthesun.common.data.SyncData;
+import com.github.mjaroslav.craftthesun.common.data.SyncData.PlayerType;
 import com.github.mjaroslav.craftthesun.common.init.ModItems;
 import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
 import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
@@ -30,8 +30,7 @@ public class CommonUtils {
     }
 
     public void tryTakeEstusFromItemInUse(@NotNull PlayerUseItemEvent.Finish event) {
-        if (event.item.getItem() == ModItems.estusFlask || event.entityPlayer.worldObj.isRemote)
-            return;
+        if (event.item.getItem() == ModItems.estusFlask || event.entityPlayer.worldObj.isRemote) return;
         val container = EstusContainer.getFromStack(event.item);
         if (container == null || !container.isExtra()) return;
         if (event.result != null && event.item != event.result) {
@@ -43,24 +42,25 @@ public class CommonUtils {
 
     public boolean isHungerFixed(@NotNull EntityPlayer player) {
         val type = CraftTheSunEEP.get(player).getSyncData().getType();
-        var flag = false;
         switch (CategoryHunger.fixHungerValueFor) {
             default:
                 return false;
             case 0:
                 return true;
             case 1:
-                return type != SyncData.PlayerType.REAL_HUMAN;
+                return !type.isUndead();
             case 2:
-                return type == SyncData.PlayerType.HOLLOW;
+                return type.isUndead();
             case 3:
-                return type == SyncData.PlayerType.REAL_HUMAN;
+                return type == PlayerType.HOLLOW;
+            case 4:
+                return type == PlayerType.HUMAN;
         }
     }
 
     public void tryHardSetHungerValue(@NotNull TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START || event.player.worldObj.isRemote ||
-                !CategoryHunger.enable || !isHungerFixed(event.player))
+        if (event.phase == TickEvent.Phase.START || event.player.worldObj.isRemote || !CategoryHunger.enable
+                || !isHungerFixed(event.player))
             return;
         if (event.player.worldObj.getTotalWorldTime() % CategoryHunger.setHungerValueDelay == 0) {
             event.player.getFoodStats().setFoodLevel(CategoryHunger.fixHungerValue);
@@ -76,11 +76,10 @@ public class CommonUtils {
     }
 
     public void tryAddEstusToFoodDrop(@NotNull LivingDropsEvent event) {
-        if (CategoryCommon.estusInFoodDropChance <= 0)
-            return;
+        if (CategoryCommon.estusInFoodDropChance <= 0) return;
         for (var entityItem : event.drops)
-            if (entityItem.getEntityItem().getItem() instanceof ItemFood &&
-                    event.entityLiving.worldObj.rand.nextInt(101) <= CategoryCommon.estusInFoodDropChance)
+            if (entityItem.getEntityItem().getItem() instanceof ItemFood
+                    && event.entityLiving.worldObj.rand.nextInt(101) <= CategoryCommon.estusInFoodDropChance)
                 EstusContainer.saveToStack(EstusContainer.createExtra(), entityItem.getEntityItem());
     }
 
@@ -88,10 +87,29 @@ public class CommonUtils {
         sendPacketToTrackingPlayers(player, message, false);
     }
 
-    public void sendPacketToTrackingPlayers(@NotNull EntityPlayer player, @NotNull IMessage message, boolean sendToSender) {
+    public void sendPacketToTrackingPlayers(@NotNull EntityPlayer player, @NotNull IMessage message,
+                                            boolean sendToSender) {
         val tracker = ((WorldServer) player.worldObj).getEntityTracker();
-        tracker.getTrackingPlayers(player).forEach(trackedPlayer -> NetworkHandler.INSTANCE.sendTo(message, trackedPlayer));
-        if (sendToSender)
-            NetworkHandler.INSTANCE.sendTo(message, player);
+        tracker.getTrackingPlayers(player)
+                .forEach(trackedPlayer -> NetworkHandler.INSTANCE.sendTo(message, trackedPlayer));
+        if (sendToSender) NetworkHandler.INSTANCE.sendTo(message, player);
+    }
+
+    public boolean isNaturalRegenerationEnabled(@NotNull EntityPlayer player) {
+        val type = CraftTheSunEEP.get(player).getSyncData().getType();
+        switch (CategoryCommon.disableNaturalRegenerationFor) {
+            default:
+                return true;
+            case 0:
+                return false;
+            case 1:
+                return type.isUndead();
+            case 2:
+                return !type.isUndead();
+            case 3:
+                return type != PlayerType.HOLLOW;
+            case 4:
+                return type != PlayerType.HUMAN;
+        }
     }
 }

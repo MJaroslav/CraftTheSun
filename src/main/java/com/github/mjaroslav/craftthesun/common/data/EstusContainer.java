@@ -7,13 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 import org.jetbrains.annotations.UnknownNullability;
 
-@Getter
-@Setter
-@ToString
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class EstusContainer {
+public final class EstusContainer {
     public static final String TAG_ESTUS_CONTAINER = "estus_container";
     public static final String TAG_COUNT = "count";
     public static final String TAG_MAX_COUNT = "max_count";

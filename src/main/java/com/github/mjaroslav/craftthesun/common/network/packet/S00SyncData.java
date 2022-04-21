@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Setter
 @Getter
-public class S00SyncData extends AbstractPacket<S00SyncData> {
+public final class S00SyncData extends AbstractPacket<S00SyncData> {
     private String username;
     private NBTTagCompound data;
 
