@@ -37,13 +37,11 @@ public class SyncData {
         val data = new NBTTagCompound();
         saveToNBT(data);
         result.setData(data);
-        changed = false;
         return result;
     }
 
     public void handleSyncPacket(@NotNull S00SyncData packet) {
         loadFromNBT(packet.getData());
-        changed = false;
     }
 
     @RequiredArgsConstructor

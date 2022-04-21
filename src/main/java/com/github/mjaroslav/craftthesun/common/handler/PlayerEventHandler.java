@@ -5,6 +5,7 @@ import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import lombok.AccessLevel;
@@ -14,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone;
+import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +29,7 @@ public class PlayerEventHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {
+    public void onPlayerRespawnEventHighest(@NotNull PlayerRespawnEvent event) {
         CraftTheSunEEP.get(event.player).onPlayerRespawn(event);
     }
 
@@ -40,17 +42,27 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public void onPlayerTickEvent(@NotNull PlayerTickEvent event) {
         CommonUtils.tryHardSetHungerValue(event);
-        CommonUtils.tryUpdateData(event);
+        CraftTheSunEEP.get(event.player).onPlayerTickEvent(event);
     }
 
     @SubscribeEvent
-    public void onPlayerUseItemEventFinish(@NotNull PlayerUseItemEvent.Finish event) {
+    public void onStartTracking(@NotNull StartTracking event) {
+        CraftTheSunEEP.get(event.entityPlayer).onStartTrackingEvent(event);
+    }
+
+    @SubscribeEvent
+    public void onPlayerUseItemFinishEvent(@NotNull PlayerUseItemEvent.Finish event) {
         CommonUtils.tryTakeEstusFromItemInUse(event);
     }
 
     public void onPlayerConstructing(@NotNull EntityConstructing event, @NotNull EntityPlayer player) {
         if (CraftTheSunEEP.get((EntityPlayer) event.entity) == null)
             CraftTheSunEEP.register(player);
+    }
+
+    @SubscribeEvent
+    public void onPlayerJoinEvent(@NotNull PlayerLoggedInEvent event) {
+        CraftTheSunEEP.get(event.player).onPlayerJoinEvent(event);
     }
 
     @SubscribeEvent

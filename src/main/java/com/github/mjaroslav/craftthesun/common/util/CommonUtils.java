@@ -7,13 +7,16 @@ import com.github.mjaroslav.craftthesun.common.data.SyncData;
 import com.github.mjaroslav.craftthesun.common.init.ModItems;
 import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
 import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
-import com.github.mjaroslav.craftthesun.lib.CategoryGeneral;
+import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon;
+import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon.CategoryHunger;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import lombok.var;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +44,7 @@ public class CommonUtils {
     public boolean isHungerFixed(@NotNull EntityPlayer player) {
         val type = CraftTheSunEEP.get(player).getSyncData().getType();
         var flag = false;
-        switch (CategoryGeneral.CategoryCommon.CategoryHunger.fixHungerValueFor) {
+        switch (CategoryHunger.fixHungerValueFor) {
             default:
                 return false;
             case 0:
@@ -57,25 +60,11 @@ public class CommonUtils {
 
     public void tryHardSetHungerValue(@NotNull TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START || event.player.worldObj.isRemote ||
-                !CategoryGeneral.CategoryCommon.CategoryHunger.enable || !isHungerFixed(event.player))
+                !CategoryHunger.enable || !isHungerFixed(event.player))
             return;
-        if (event.player.worldObj.getTotalWorldTime() % CategoryGeneral.CategoryCommon.CategoryHunger.setHungerValueDelay == 0) {
-            event.player.getFoodStats().setFoodLevel(CategoryGeneral.CategoryCommon.CategoryHunger.fixHungerValue);
-            event.player.getFoodStats().setFoodSaturationLevel(CategoryGeneral.CategoryCommon.CategoryHunger.fixSaturationValue);
-        }
-    }
-
-    public void tryUpdateData(@NotNull TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START || event.player.worldObj.isRemote)
-            return;
-        val data = CraftTheSunEEP.get(event.player).getSyncData();
-//        if (!data.isChanged())
-//            return;
-        // TODO: Make tracker
-        if (event.player.worldObj.getTotalWorldTime() % 20 == 0) {
-            val packet = data.getSyncPacket();
-            packet.setUsername(event.player.getCommandSenderName());
-            NetworkHandler.INSTANCE.sendToAllAround(packet, event.player, 64);
+        if (event.player.worldObj.getTotalWorldTime() % CategoryHunger.setHungerValueDelay == 0) {
+            event.player.getFoodStats().setFoodLevel(CategoryHunger.fixHungerValue);
+            event.player.getFoodStats().setFoodSaturationLevel(CategoryHunger.fixSaturationValue);
         }
     }
 
@@ -87,11 +76,22 @@ public class CommonUtils {
     }
 
     public void tryAddEstusToFoodDrop(@NotNull LivingDropsEvent event) {
-        if (CategoryGeneral.CategoryCommon.estusInFoodDropChance <= 0)
+        if (CategoryCommon.estusInFoodDropChance <= 0)
             return;
         for (var entityItem : event.drops)
             if (entityItem.getEntityItem().getItem() instanceof ItemFood &&
-                    event.entityLiving.worldObj.rand.nextInt(101) <= CategoryGeneral.CategoryCommon.estusInFoodDropChance)
+                    event.entityLiving.worldObj.rand.nextInt(101) <= CategoryCommon.estusInFoodDropChance)
                 EstusContainer.saveToStack(EstusContainer.createExtra(), entityItem.getEntityItem());
+    }
+
+    public void sendPacketToTrackingPlayers(@NotNull EntityPlayer player, @NotNull IMessage message) {
+        sendPacketToTrackingPlayers(player, message, false);
+    }
+
+    public void sendPacketToTrackingPlayers(@NotNull EntityPlayer player, @NotNull IMessage message, boolean sendToSender) {
+        val tracker = ((WorldServer) player.worldObj).getEntityTracker();
+        tracker.getTrackingPlayers(player).forEach(trackedPlayer -> NetworkHandler.INSTANCE.sendTo(message, trackedPlayer));
+        if (sendToSender)
+            NetworkHandler.INSTANCE.sendTo(message, player);
     }
 }

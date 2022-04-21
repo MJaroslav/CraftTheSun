@@ -1,7 +1,12 @@
 package com.github.mjaroslav.craftthesun.common.data;
 
+import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
+import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import com.github.mjaroslav.craftthesun.lib.ModInfo;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import lombok.Getter;
 import lombok.val;
 import net.minecraft.entity.Entity;
@@ -10,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
@@ -44,6 +50,31 @@ public final class CraftTheSunEEP implements IExtendedEntityProperties {
 
     public void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {
         estusDropCache.onPlayerRespawn(event);
+    }
+
+    public void onStartTrackingEvent(@NotNull StartTracking event) {
+        if (event.target instanceof EntityPlayer) {
+            val packet = syncData.getSyncPacket();
+            packet.setUsername(event.entityPlayer.getCommandSenderName());
+            NetworkHandler.INSTANCE.sendTo(packet, (EntityPlayer) event.target);
+        }
+    }
+
+    public void onPlayerTickEvent(@NotNull PlayerTickEvent event) {
+        if (event.phase == Phase.START || event.player.worldObj.isRemote || !syncData.isChanged())
+            return;
+        val packet = syncData.getSyncPacket();
+        packet.setUsername(event.player.getCommandSenderName());
+        CommonUtils.sendPacketToTrackingPlayers(event.player, packet, true);
+        syncData.setChanged(false);
+    }
+
+    public void onPlayerJoinEvent(@NotNull PlayerLoggedInEvent event) {
+        if (event.player.worldObj.isRemote)
+            return;
+        val packet = syncData.getSyncPacket();
+        packet.setUsername(event.player.getCommandSenderName());
+        NetworkHandler.INSTANCE.sendTo(packet, event.player);
     }
 
     @UnknownNullability

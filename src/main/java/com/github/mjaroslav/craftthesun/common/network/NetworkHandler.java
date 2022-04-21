@@ -10,8 +10,8 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.var;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,9 +21,17 @@ public class NetworkHandler {
 
     private final SimpleNetworkWrapper wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ModInfo.MOD_ID);
 
+    private int id;
+
     public void init(FMLInitializationEvent event) {
-        var id = 0;
         wrapper.registerMessage(S00SyncData.class, S00SyncData.class, id++, Side.CLIENT);
+    }
+
+    public void sendTo(@NotNull IMessage message, @NotNull EntityPlayer player) {
+        if (player instanceof EntityPlayerMP)
+            wrapper.sendTo(message, (EntityPlayerMP) player);
+        else
+            ModInfo.LOG.error("Something is trying to send packet to non MP EntityPlayer", new IllegalArgumentException());
     }
 
     public void sendToAllAround(@NotNull IMessage message, @NotNull EntityPlayer player, double radius) {
