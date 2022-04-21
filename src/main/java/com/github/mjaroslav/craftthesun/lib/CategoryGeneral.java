@@ -64,7 +64,7 @@ public class CategoryGeneral {
             @ConfigurationProperty(comment = "Delay in ticks for resetting hunger and saturation values for players with fixed hunger value", minInt = 0, maxInt = 200, defaultInt = 20)
             public static int setHungerValueDelay;
 
-            @ConfigurationProperty(comment = "Fix hunger value for: -1 for all players, 0 for all undead players, 1 for hollow undead players, 2 for human undead players", minInt = -1, maxInt = 2)
+            @ConfigurationProperty(comment = "Fix hunger value for: -1 for disable, 0 for all players, 1 for all undead players, 2 for hollow undead players, 3 for human undead players", defaultInt = 1, minInt = -1, maxInt = 3)
             public static int fixHungerValueFor;
         }
     }

@@ -9,4 +9,8 @@ public abstract class CommonProxy extends Proxy {
     public EntityPlayer getEntityPlayer(MessageContext ctx) {
         return ctx.getServerHandler().playerEntity;
     }
+
+    public final void spawnParticle(String name, Object... args) {
+        spawnParticle(name, 0, 0, 0, args);
+    }
 }

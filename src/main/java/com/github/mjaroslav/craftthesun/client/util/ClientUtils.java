@@ -4,6 +4,7 @@ import com.github.mjaroslav.craftthesun.client.audio.PlayerFallSound;
 import com.github.mjaroslav.craftthesun.client.entity.boss.AdvancedBossStatus;
 import com.github.mjaroslav.craftthesun.client.gui.GameOverlayReplacer;
 import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
+import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import lombok.experimental.UtilityClass;
@@ -67,10 +68,10 @@ public class ClientUtils {
     }
 
     public void tryHideHungerBar(@NotNull RenderGameOverlayEvent.Pre event) {
-        // TODO: Add player type check
         if (event.type != RenderGameOverlayEvent.ElementType.FOOD)
             return;
-        event.setCanceled(!CategoryGeneral.CategoryCommon.CategoryHunger.showHungerBar);
+        event.setCanceled(CommonUtils.isHungerFixed(Minecraft.getMinecraft().thePlayer) &&
+                !CategoryGeneral.CategoryCommon.CategoryHunger.showHungerBar);
     }
 
     public void tryReplaceBossBar(@NotNull RenderGameOverlayEvent.Pre event) {

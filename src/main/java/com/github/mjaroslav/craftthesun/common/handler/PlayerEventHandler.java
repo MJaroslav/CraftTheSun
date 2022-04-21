@@ -40,6 +40,7 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public void onPlayerTickEvent(@NotNull PlayerTickEvent event) {
         CommonUtils.tryHardSetHungerValue(event);
+        CommonUtils.tryUpdateData(event);
     }
 
     @SubscribeEvent

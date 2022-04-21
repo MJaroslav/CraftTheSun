@@ -1,6 +1,6 @@
 package com.github.mjaroslav.craftthesun.common.network;
 
-import com.github.mjaroslav.craftthesun.common.network.packet.S2CEstusFXPacket;
+import com.github.mjaroslav.craftthesun.common.network.packet.S00SyncData;
 import com.github.mjaroslav.craftthesun.lib.ModInfo;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -10,6 +10,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.var;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +22,8 @@ public class NetworkHandler {
     private final SimpleNetworkWrapper wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ModInfo.MOD_ID);
 
     public void init(FMLInitializationEvent event) {
-        int id = 0;
-        wrapper.registerMessage(S2CEstusFXPacket.class, S2CEstusFXPacket.class, id++, Side.CLIENT);
+        var id = 0;
+        wrapper.registerMessage(S00SyncData.class, S00SyncData.class, id++, Side.CLIENT);
     }
 
     public void sendToAllAround(@NotNull IMessage message, @NotNull EntityPlayer player, double radius) {
@@ -45,10 +46,5 @@ public class NetworkHandler {
 
     public void sendToServer(@NotNull IMessage message) {
         wrapper.sendToServer(message);
-    }
-
-    @Deprecated
-    public void sendEstusFX(@NotNull EntityPlayer player) {
-        sendToAllAround(new S2CEstusFXPacket(player), player, 64);
     }
 }

@@ -5,3 +5,7 @@ item.craftthesun:estus_flask.infinity.name=Bottomless Estus Flask
 tooltip.craftthesun:estus_flask.count.text=Estus count %s/%s
 tooltip.craftthesun:estus_flask.infinity.text=Infinity estus
 tooltip.craftthesun:estus_flask.extra.text=This item contains some estus
+
+commands.craftthesun.usage="/cts type" for show your type, "/cts type [TYPE] <PLAYER>" for set [TYPE] to yourself or to <PLAYER>
+commands.craftthesun.type.get=Your type %s
+commands.craftthesun.type.set=Set type %s for %s

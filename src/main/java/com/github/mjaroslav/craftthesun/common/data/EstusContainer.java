@@ -21,9 +21,9 @@ public class EstusContainer {
     public static final String TAG_EXTRA = "extra";
 
     @Range(from = 0, to = Integer.MAX_VALUE)
-    private int count;
+    private int count = 5;
     @Range(from = 1, to = Integer.MAX_VALUE)
-    private int maxCount;
+    private int maxCount = 5;
     private boolean infinity = false;
     private boolean extra = false;
 
@@ -138,7 +138,10 @@ public class EstusContainer {
     }
 
     public static void removeEstusContainer(@NotNull ItemStack stack) {
-        if(hasEstusContainer(stack))
+        if (hasEstusContainer(stack)) {
             stack.getTagCompound().removeTag(TAG_ESTUS_CONTAINER);
+            if (stack.getTagCompound().hasNoTags())
+                stack.setTagCompound(null);
+        }
     }
 }

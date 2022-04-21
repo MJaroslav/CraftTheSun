@@ -1,18 +1,16 @@
 package com.github.mjaroslav.craftthesun.common.handler;
 
+import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.val;
-import lombok.var;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import org.jetbrains.annotations.NotNull;
-import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LivingEventHandler {
@@ -32,9 +30,9 @@ public class LivingEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onLivingDropEventLowest(@NotNull LivingDropsEvent event) {
-	CommonUtils.tryAddEstusToFoodDrop(event);
-
+        CommonUtils.tryAddEstusToFoodDrop(event);
     }
+
     public void register() {
         MinecraftForge.EVENT_BUS.register(this);
     }

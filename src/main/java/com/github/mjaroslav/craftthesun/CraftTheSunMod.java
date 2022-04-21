@@ -1,12 +1,10 @@
 package com.github.mjaroslav.craftthesun;
 
 import com.github.mjaroslav.craftthesun.common.CommonProxy;
+import com.github.mjaroslav.craftthesun.common.command.CommandCraftTheSun;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLConstructionEvent;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.*;
 import mjaroslav.mcmods.mjutils.module.AnnotationBasedConfiguration;
 import mjaroslav.mcmods.mjutils.module.ModuleSystem;
 import org.jetbrains.annotations.NotNull;
@@ -43,5 +41,10 @@ public class CraftTheSunMod {
     @Mod.EventHandler
     public void postInit(@NotNull FMLPostInitializationEvent event) {
         system.postInit(event);
+    }
+
+    @Mod.EventHandler
+    public void serverStarting(@NotNull FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandCraftTheSun());
     }
 }

@@ -5,3 +5,7 @@ item.craftthesun:estus_flask.infinity.name=Бездонная Фляга Эст�
 tooltip.craftthesun:estus_flask.count.text=Количество эстуса %s/%s
 tooltip.craftthesun:estus_flask.infinity.text=Бесконечный эстус
 tooltip.craftthesun:estus_flask.extra.text=Этот предмет содержит немного эстуса
+
+commands.craftthesun.usage="/cts type" чтобы показать ваш тип, "/cts type [TYPE] <PLAYER>" чтобы установить тип [TYPE] себе или игроку <PLAYER>
+commands.craftthesun.type.get=Ваш тип %s
+commands.craftthesun.type.set=Установлен тип %s для %s
