@@ -12,12 +12,13 @@ public class PlayerFallSound extends MovingSound {
         super(new ResourceLocation("craftthesun:ds.random.player.fall"));
         this.player = player;
         // Pitch
-        this.field_147663_c = player.worldObj.rand.nextFloat() * 0.1F + 0.9F;
+        field_147663_c = player.worldObj.rand.nextFloat() * 0.1F + 0.9F;
     }
 
     @Override
     public void update() {
-        if (player == null || player.isDead) donePlaying = true;
+        if (player == null || player.isDead)
+            donePlaying = true;
         else {
             xPosF = (float) player.posX;
             yPosF = (float) player.posY;

@@ -2,13 +2,12 @@ package com.github.mjaroslav.craftthesun.client.entity.boss;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.*;
+import javax.annotation.Nullable;
 import lombok.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.*;
 
 // TODO: Remade this shit
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,7 +19,8 @@ public class AdvancedBossStatus {
     private final Map<Integer, BossStatus> STATUSES = new HashMap<>();
 
     public void addBoss(@NotNull Entity entity) {
-        if (entity instanceof IBossDisplayData) BOSSES.put(entity.getEntityId(), entity);
+        if (entity instanceof IBossDisplayData)
+            BOSSES.put(entity.getEntityId(), entity);
     }
 
     public void afterTick() {
@@ -30,8 +30,9 @@ public class AdvancedBossStatus {
     public void tick() {
         BOSSES.forEach((id, entity) -> {
             val data = (IBossDisplayData) entity;
-            if (!STATUSES.containsKey(id)) STATUSES.put(id, new BossStatus(data.func_145748_c_().getFormattedText(),
-                    data.getHealth() / data.getMaxHealth(), -1, -1, 100));
+            if (!STATUSES.containsKey(id))
+                STATUSES.put(id, new BossStatus(data.func_145748_c_().getFormattedText(),
+                        data.getHealth() / data.getMaxHealth(), -1, -1, 100));
             else {
                 val status = STATUSES.get(id);
                 status.healthScale = data.getHealth() / data.getMaxHealth();
@@ -44,7 +45,8 @@ public class AdvancedBossStatus {
                 if (BOSSES.containsKey(entry.getKey())) {
                     entry.getValue().timer = 100;
                     return false;
-                } else return true;
+                } else
+                    return true;
             else
                 return false;
         });
@@ -59,7 +61,8 @@ public class AdvancedBossStatus {
         val list = new ArrayList<>(STATUSES.values());
         list.sort(Comparator.comparingDouble(status -> status.healthScale));
         val result = new ArrayList<BossStatus>();
-        for (var i = 0; i < count && i < list.size(); i++) result.add(list.get(i));
+        for (var i = 0; i < count && i < list.size(); i++)
+            result.add(list.get(i));
         return result;
     }
 

@@ -1,22 +1,23 @@
 package com.github.mjaroslav.craftthesun.common.item;
 
+import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
-
-import java.util.List;
 
 import static com.github.mjaroslav.craftthesun.lib.ModInfo.prefix;
 
@@ -81,9 +82,11 @@ public class ItemEstusFlask extends Item {
             CommonUtils.doEstusEffects(player);
             // TODO: Do estus shit
             player.heal(8);
-            if (!EstusContainer.hasEstus(stack)) stack.setItemDamage(0);
+            if (!EstusContainer.hasEstus(stack))
+                stack.setItemDamage(0);
             return stack;
-        } else return super.onEaten(stack, world, player);
+        } else
+            return super.onEaten(stack, world, player);
     }
 
     @Override

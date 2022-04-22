@@ -1,7 +1,5 @@
 package com.github.mjaroslav.craftthesun.common.network.packet;
 
-import org.jetbrains.annotations.NotNull;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -10,14 +8,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractPacket<REQ extends IMessage> implements IMessage, IMessageHandler<REQ, REQ> {
     @Override
     public final REQ onMessage(@NotNull REQ message, @NotNull MessageContext ctx) {
-        if (ctx.side == Side.SERVER) handleServerSide(message, ctx.getServerHandler().playerEntity);
-        else handleClientSide(message, Minecraft.getMinecraft().thePlayer);
+        if (ctx.side == Side.SERVER)
+            handleServerSide(message, ctx.getServerHandler().playerEntity);
+        else
+            handleClientSide(message, Minecraft.getMinecraft().thePlayer);
         return null;
     }
 

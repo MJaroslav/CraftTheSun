@@ -25,6 +25,7 @@ public class CraftTheSunPlugin extends FMLLoadingPluginAdapter implements IFMLLo
             return EntityPlayerTransformer.transform(temp);
         } else if (transformedName.equals("net.minecraft.util.FoodStats"))
             return FoodStatsTransformer.transform(basicClass);
-        else return basicClass;
+        else
+            return basicClass;
     }
 }

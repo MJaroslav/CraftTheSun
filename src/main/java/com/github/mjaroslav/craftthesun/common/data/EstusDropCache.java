@@ -3,6 +3,8 @@ package com.github.mjaroslav.craftthesun.common.data;
 import com.github.mjaroslav.craftthesun.common.init.ModItems;
 import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.val;
 import lombok.var;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,9 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public final class EstusDropCache {
     public static final String TAG_ESTUS_DROP_CACHE = "estus_drop_cache";
@@ -46,13 +45,14 @@ public final class EstusDropCache {
     }
 
     void onPlayerDeathEvent(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
-        if (!player.worldObj.isRemote) for (var slot = 0; slot < player.inventory.getSizeInventory(); slot++) {
-            val stack = player.inventory.getStackInSlot(slot);
-            if (stack != null && stack.getItem() == ModItems.estusFlask) {
-                CACHE.put(slot, stack.copy());
-                player.inventory.setInventorySlotContents(slot, null);
+        if (!player.worldObj.isRemote)
+            for (var slot = 0; slot < player.inventory.getSizeInventory(); slot++) {
+                val stack = player.inventory.getStackInSlot(slot);
+                if (stack != null && stack.getItem() == ModItems.estusFlask) {
+                    CACHE.put(slot, stack.copy());
+                    player.inventory.setInventorySlotContents(slot, null);
+                }
             }
-        }
     }
 
     void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {

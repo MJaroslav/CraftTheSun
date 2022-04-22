@@ -31,7 +31,8 @@ public class NetworkHandler {
         if (player instanceof EntityPlayerMP)
             wrapper.sendTo(message, (EntityPlayerMP) player);
         else
-            ModInfo.LOG.error("Something is trying to send packet to non MP EntityPlayer", new IllegalArgumentException());
+            ModInfo.LOG.error("Something is trying to send packet to non MP EntityPlayer",
+                    new IllegalArgumentException());
     }
 
     public void sendToAllAround(@NotNull IMessage message, @NotNull EntityPlayer player, double radius) {
@@ -40,7 +41,7 @@ public class NetworkHandler {
     }
 
     public void sendToAllAround(@NotNull IMessage message, @NotNull World world, double x, double y, double z,
-                                double radius) {
+            double radius) {
         wrapper.sendToAllAround(message, new TargetPoint(world.provider.dimensionId, x, y, z, radius));
     }
 

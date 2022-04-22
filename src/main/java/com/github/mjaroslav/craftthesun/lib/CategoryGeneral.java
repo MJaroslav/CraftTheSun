@@ -3,8 +3,7 @@ package com.github.mjaroslav.craftthesun.lib;
 import mjaroslav.mcmods.mjutils.module.ConfigurationCategory;
 import mjaroslav.mcmods.mjutils.module.ConfigurationProperty;
 
-@ConfigurationCategory(name = ConfigurationCategory.GENERAL_NAME, modID = ModInfo.MOD_ID,
-        comment = ConfigurationCategory.GENERAL_COMMENT)
+@ConfigurationCategory(name = ConfigurationCategory.GENERAL_NAME, modID = ModInfo.MOD_ID, comment = ConfigurationCategory.GENERAL_COMMENT)
 public class CategoryGeneral {
     @ConfigurationCategory(name = "client", comment = "Cosmetic settings")
     public static class CategoryClient {

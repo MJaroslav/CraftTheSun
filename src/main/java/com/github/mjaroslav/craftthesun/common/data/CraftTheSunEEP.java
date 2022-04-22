@@ -41,8 +41,7 @@ public final class CraftTheSunEEP implements IExtendedEntityProperties {
     }
 
     @Override
-    public void init(@NotNull Entity entity, @NotNull World world) {
-    }
+    public void init(@NotNull Entity entity, @NotNull World world) {}
 
     public void onPlayerDeathEvent(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
         estusDropCache.onPlayerDeathEvent(event, player);

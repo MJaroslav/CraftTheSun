@@ -29,8 +29,8 @@ public class FoodStatsTransformer {
         if (point != null) {
             val list = new InsnList();
             list.add(new VarInsnNode(ALOAD, 1));
-            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(CommonUtils.class), "isNaturalRegenerationDisabled",
-                    "(Lnet/minecraft/entity/player/EntityPlayer;)Z", false));
+            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(CommonUtils.class),
+                    "isNaturalRegenerationDisabled", "(Lnet/minecraft/entity/player/EntityPlayer;)Z", false));
             val label = new LabelNode();
             list.add(new JumpInsnNode(IFEQ, label));
             methodNode.instructions.insertBefore(point.getPrevious().getPrevious(), list);

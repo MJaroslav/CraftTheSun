@@ -1,7 +1,5 @@
 package com.github.mjaroslav.craftthesun.client.particle;
 
-import org.jetbrains.annotations.NotNull;
-
 import lombok.val;
 import lombok.var;
 import net.minecraft.client.Minecraft;
@@ -9,6 +7,7 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 public class EntityEstusFX extends EntityFX {
     private final double radius = 0.5;
@@ -51,7 +50,8 @@ public class EntityEstusFX extends EntityFX {
     private void syncTargetPosition() {
         var y = target.posY + rotation.yCoord + offsetMotion;
         // Bullshit
-        if (target != Minecraft.getMinecraft().thePlayer) y += target.getEyeHeight();
+        if (target != Minecraft.getMinecraft().thePlayer)
+            y += target.getEyeHeight();
         setPosition(target.posX + rotation.xCoord * radius, y, target.posZ + rotation.zCoord * radius);
     }
 
@@ -66,7 +66,8 @@ public class EntityEstusFX extends EntityFX {
         prevPosZ = posZ;
         syncTargetPosition();
         // All from fireworks
-        if (particleAge++ >= particleMaxAge) setDead();
+        if (particleAge++ >= particleMaxAge)
+            setDead();
 
         if (particleAge > particleMaxAge / 2) {
             setAlphaF(1.0F - ((float) particleAge - (float) (particleMaxAge / 2)) / particleMaxAge);

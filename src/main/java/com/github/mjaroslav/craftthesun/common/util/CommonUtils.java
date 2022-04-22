@@ -11,9 +11,9 @@ import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon.CategoryHunger;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import lombok.experimental.UtilityClass;
 import lombok.val;
 import lombok.var;
+import lombok.experimental.UtilityClass;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.world.WorldServer;
@@ -30,12 +30,13 @@ public class CommonUtils {
     }
 
     public void tryTakeEstusFromItemInUse(@NotNull PlayerUseItemEvent.Finish event) {
-        if (event.item.getItem() == ModItems.estusFlask || event.entityPlayer.worldObj.isRemote) return;
+        if (event.item.getItem() == ModItems.estusFlask || event.entityPlayer.worldObj.isRemote)
+            return;
         val container = EstusContainer.getFromStack(event.item);
-        if (container == null || !container.isExtra()) return;
-        if (event.result != null && event.item != event.result) {
+        if (container == null || !container.isExtra())
+            return;
+        if (event.result != null && event.item != event.result)
             EstusContainer.removeEstusContainer(event.result);
-        }
         doEstusEffects(event.entityPlayer);
         event.entityPlayer.heal(8);
     }
@@ -71,12 +72,14 @@ public class CommonUtils {
     public void tryRefillEstusFlasks(@NotNull EntityPlayer player) {
         for (var index = 0; index < player.inventory.getSizeInventory(); index++) {
             val stack = player.inventory.getStackInSlot(index);
-            if (stack != null && stack.getItem() == ModItems.estusFlask) ItemEstusFlask.refillEstusFlask(stack);
+            if (stack != null && stack.getItem() == ModItems.estusFlask)
+                ItemEstusFlask.refillEstusFlask(stack);
         }
     }
 
     public void tryAddEstusToFoodDrop(@NotNull LivingDropsEvent event) {
-        if (CategoryCommon.estusInFoodDropChance <= 0) return;
+        if (CategoryCommon.estusInFoodDropChance <= 0)
+            return;
         for (var entityItem : event.drops)
             if (entityItem.getEntityItem().getItem() instanceof ItemFood
                     && event.entityLiving.worldObj.rand.nextInt(101) <= CategoryCommon.estusInFoodDropChance)
@@ -88,11 +91,12 @@ public class CommonUtils {
     }
 
     public void sendPacketToTrackingPlayers(@NotNull EntityPlayer player, @NotNull IMessage message,
-                                            boolean sendToSender) {
+            boolean sendToSender) {
         val tracker = ((WorldServer) player.worldObj).getEntityTracker();
         tracker.getTrackingPlayers(player)
                 .forEach(trackedPlayer -> NetworkHandler.INSTANCE.sendTo(message, trackedPlayer));
-        if (sendToSender) NetworkHandler.INSTANCE.sendTo(message, player);
+        if (sendToSender)
+            NetworkHandler.INSTANCE.sendTo(message, player);
     }
 
     public boolean isNaturalRegenerationEnabled(@NotNull EntityPlayer player) {

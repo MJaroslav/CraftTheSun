@@ -26,7 +26,8 @@ public final class EstusContainer {
 
     public boolean decrease(boolean doReal) {
         val flag = count - 1 > -1 || infinity;
-        if (!infinity && doReal && count > 0) count--;
+        if (!infinity && doReal && count > 0)
+            count--;
         return flag;
     }
 
@@ -92,7 +93,8 @@ public final class EstusContainer {
             val result = new EstusContainer();
             result.loadFromNBT(stack.getTagCompound());
             return result;
-        } else return null;
+        } else
+            return null;
     }
 
     public static EstusContainer getFromStackOrDefault(@NotNull ItemStack stack) {
@@ -105,7 +107,8 @@ public final class EstusContainer {
     }
 
     public static void saveToStack(@NotNull EstusContainer container, @NotNull ItemStack stack) {
-        if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+        if (!stack.hasTagCompound())
+            stack.setTagCompound(new NBTTagCompound());
         container.saveToNBT(stack.getTagCompound());
     }
 
@@ -130,7 +133,7 @@ public final class EstusContainer {
     }
 
     public static EstusContainer createCustom(@Range(from = 0, to = Integer.MAX_VALUE) int count,
-                                              @Range(from = 1, to = Integer.MAX_VALUE) int maxCount) {
+            @Range(from = 1, to = Integer.MAX_VALUE) int maxCount) {
         return new EstusContainer(count, maxCount, false, false);
     }
 

@@ -28,18 +28,21 @@ public class GameOverlayReplacer extends Gui {
         val barWidth = 254;
         val barX = resolution.getScaledWidth() / 2 - barWidth / 2;
         var index = 0;
-        for (var bossStatus : AdvancedBossStatus.INSTANCE.getFirst(CategoryGeneral.CategoryClient.CategoryBossBar.maxBars)) {
+        for (var bossStatus : AdvancedBossStatus.INSTANCE
+                .getFirst(CategoryGeneral.CategoryClient.CategoryBossBar.maxBars)) {
             mc.getTextureManager().bindTexture(ClientUtils.ICONS);
             val scaleSize = (int) (bossStatus.healthScale * (barWidth + 1));
             val prevScaleSize = (int) ((bossStatus.prevHealthScale) * (barWidth + 1));
             val barY = resolution.getScaledHeight() - (60 + 20 * index);
             drawTexturedModalRect(barX, barY, 0, 0, barWidth, 7);
             drawTexturedModalRect(barX, barY, 0, 0, barWidth, 7);
-            val flag = CategoryGeneral.CategoryClient.CategoryBossBar.damageViewDelay > 0 &&
-                    mc.thePlayer.worldObj.getTotalWorldTime() - bossStatus.lastAttackTick <=
-                            CategoryGeneral.CategoryClient.CategoryBossBar.damageViewDelay;
-            if (flag && prevScaleSize > 0) drawTexturedModalRect(barX, barY, 0, 14, prevScaleSize, 7);
-            if (scaleSize > 0) drawTexturedModalRect(barX, barY, 0, 7, scaleSize, 7);
+            val flag = CategoryGeneral.CategoryClient.CategoryBossBar.damageViewDelay > 0 && mc.thePlayer.worldObj
+                    .getTotalWorldTime()
+                    - bossStatus.lastAttackTick <= CategoryGeneral.CategoryClient.CategoryBossBar.damageViewDelay;
+            if (flag && prevScaleSize > 0)
+                drawTexturedModalRect(barX, barY, 0, 14, prevScaleSize, 7);
+            if (scaleSize > 0)
+                drawTexturedModalRect(barX, barY, 0, 7, scaleSize, 7);
             mc.fontRenderer.drawStringWithShadow(bossStatus.bossName, barX, barY - 10, 0xFFFFFF);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             index++;

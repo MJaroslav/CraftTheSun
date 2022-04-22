@@ -1,11 +1,10 @@
 package com.github.mjaroslav.craftthesun.common.network.packet;
 
-import org.jetbrains.annotations.NotNull;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
