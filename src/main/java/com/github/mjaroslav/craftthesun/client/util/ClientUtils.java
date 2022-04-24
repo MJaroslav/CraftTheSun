@@ -61,8 +61,8 @@ public class ClientUtils {
             return;
         if (!event.player.onGround && !PLAYER_FALL_STATE.getOrDefault(event.player.getCommandSenderName(), false))
             if (!event.player.capabilities.isFlying && (event.player.posY - event.player.worldObj.getHeightValue(
-                    event.player.serverPosX,
-                    event.player.serverPosZ) > CategoryGeneral.CategoryClient.CategorySounds.fallSoundTriggerHeight)
+                    (int) event.player.posX,
+                    (int) event.player.posZ) > CategoryGeneral.CategoryClient.CategorySounds.fallSoundTriggerHeight)
                     && event.player.motionY < 0) {
                 Minecraft.getMinecraft().getSoundHandler().playSound(new PlayerFallSound(event.player));
                 PLAYER_FALL_STATE.put(event.player.getCommandSenderName(), true);
