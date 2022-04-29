@@ -25,7 +25,7 @@ public class LivingEventHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onLivingDeathEventLowest(@NotNull LivingDeathEvent event) {
         if (event.entityLiving instanceof EntityPlayer)
-            PlayerEventHandler.INSTANCE.onPlayerDeathEvent(event, (EntityPlayer) event.entityLiving);
+            PlayerEventHandler.INSTANCE.onPlayerDeathEventLowest(event, (EntityPlayer) event.entityLiving);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

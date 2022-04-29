@@ -5,11 +5,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerFallSound extends MovingSound {
+public class PlayerFixedSound extends MovingSound {
     private final EntityPlayer player;
 
-    public PlayerFallSound(@NotNull EntityPlayer player) {
-        super(new ResourceLocation("craftthesun:ds.random.player.fall"));
+    public PlayerFixedSound(@NotNull EntityPlayer player, @NotNull String sound) {
+        super(new ResourceLocation(sound));
         this.player = player;
         // Pitch
         field_147663_c = player.worldObj.rand.nextFloat() * 0.1F + 0.9F;

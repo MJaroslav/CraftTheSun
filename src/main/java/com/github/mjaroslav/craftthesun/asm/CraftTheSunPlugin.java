@@ -1,12 +1,11 @@
 package com.github.mjaroslav.craftthesun.asm;
 
 import com.github.mjaroslav.craftthesun.asm.reflector.EntityPlayerReflector;
+import com.github.mjaroslav.craftthesun.asm.transformer.CraftTheSunTransformer;
 import com.github.mjaroslav.reflectors.v2.Reflectors;
 import com.github.mjaroslav.reflectors.v2.Reflectors.FMLLoadingPluginAdapter;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraft.launchwrapper.IClassTransformer;
-
-import com.github.mjaroslav.craftthesun.asm.transformer.CraftTheSunTransformer;
 
 @IFMLLoadingPlugin.Name("CraftTheSunPlugin")
 @IFMLLoadingPlugin.MCVersion("1.7.10")
@@ -19,9 +18,9 @@ public class CraftTheSunPlugin extends FMLLoadingPluginAdapter implements IFMLLo
 
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
-        if (transformedName.equals("net.minecraft.entity.player.EntityPlayer")) {
+        if (transformedName.equals("net.minecraft.entity.player.EntityPlayer"))
             return CraftTheSunTransformer.entityPlayer(Reflectors.reflectClass(basicClass, transformedName, EntityPlayerReflector.class.getName()));
-        } else if (transformedName.equals("net.minecraft.util.FoodStats"))
+        else if (transformedName.equals("net.minecraft.util.FoodStats"))
             return CraftTheSunTransformer.foodStats(basicClass);
         else
             return basicClass;

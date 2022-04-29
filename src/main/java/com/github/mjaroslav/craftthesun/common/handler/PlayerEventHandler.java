@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerEventHandler {
     public static final PlayerEventHandler INSTANCE = new PlayerEventHandler();
 
-    public void onPlayerDeathEvent(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
+    public void onPlayerDeathEventLowest(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
         CraftTheSunEEP.get(player).onPlayerDeathEvent(event, player);
     }
 

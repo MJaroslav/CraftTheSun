@@ -41,7 +41,8 @@ public final class CraftTheSunEEP implements IExtendedEntityProperties {
     }
 
     @Override
-    public void init(@NotNull Entity entity, @NotNull World world) {}
+    public void init(@NotNull Entity entity, @NotNull World world) {
+    }
 
     public void onPlayerDeathEvent(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
         estusDropCache.onPlayerDeathEvent(event, player);
@@ -49,6 +50,11 @@ public final class CraftTheSunEEP implements IExtendedEntityProperties {
 
     public void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {
         estusDropCache.onPlayerRespawn(event);
+        if (event.player.worldObj.isRemote)
+            return;
+        val packet = syncData.getSyncPacket();
+        packet.setUsername(event.player.getCommandSenderName());
+        NetworkHandler.INSTANCE.sendTo(packet, event.player);
     }
 
     public void onStartTrackingEvent(@NotNull StartTracking event) {
