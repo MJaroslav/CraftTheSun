@@ -5,11 +5,29 @@ item.craftthesun:estus_flask.empty.name=Пустая Фляга Эстуса
 item.craftthesun:estus_flask.infinity.name=Бездонная Фляга Эстуса
 item.craftthesun:dark_sign.name=Знак Тьмы
 item.craftthesun:humanity.name=Человечность
+item.craftthesun:humanity.twin.name=Двойная Человечность
 
 tooltip.craftthesun:estus_flask.count.text=Количество эстуса %s/%s
 tooltip.craftthesun:estus_flask.infinity.text=Бесконечный эстус
 tooltip.craftthesun:estus_flask.extra.text=Этот предмет содержит немного эстуса
 
-commands.craftthesun.usage="/cts type" чтобы показать ваш тип, "/cts type [TYPE] <PLAYER>" чтобы установить тип [TYPE] себе или игроку <PLAYER>
-commands.craftthesun.type.get=Ваш тип %s
-commands.craftthesun.type.set=Установлен тип %s для %s
+commands.craftthesun.usage="/craftthesun <type|humanity>" для подробной помощи
+commands.craftthesun.type.usage="/craftthesun type <list|show|set>" для подробной помощи
+commands.craftthesun.type.list.usage="/craftthesun type list" чтобы показать все типы
+commands.craftthesun.type.show.usage="/craftthesun type show [player]" чтобы показать ваш тип или у игрока [player]
+commands.craftthesun.type.set.usage="/craftthesun type set <type> [player]" чтобы установить тип <type> себе или для игрока [player]
+commands.craftthesun.humanity.usage="/craftthesun humanity <show|set|add>" для подробной помощи
+commands.craftthesun.humanity.show.usage="/craftthesun humanity show [player]" чтобы показать вашу человечность или у игрока [player]
+commands.craftthesun.humanity.add.usage="/craftthesun humanity add <count> [player]" чтобы добавить <count> к вашей человечности или для игрока [player]
+commands.craftthesun.humanity.set.usage="/craftthesun humanity set <count> [player]" чтобы установить значение <count> вашей человечности или для игрока [player]
+
+commands.craftthesun.playertype.invalid="%s" не является типом, используйте "/craftthesun type list" для просмотра доступных
+commands.craftthesun.type.list.success=Типы: [%s]
+commands.craftthesun.type.show.success=Ваш тип: %s
+commands.craftthesun.type.show.another.success=Тип игрока %s: %s
+commands.craftthesun.type.set.success=Теперь ваш тип является %s
+commands.craftthesun.type.set.another.success=Теперь тип игрока %s является %s
+commands.craftthesun.humanity.show.success=Ваше количество человечности: %s
+commands.craftthesun.humanity.show.another.success=Количество человечности игрока %s: %s
+commands.craftthesun.humanity.change.success=Теперь ваше количество человечности равняется %s
+commands.craftthesun.humanity.change.another.success=Теперь количество человечности игрока %s равняется %s

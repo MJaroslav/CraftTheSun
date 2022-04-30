@@ -146,6 +146,10 @@ public class CommonUtils {
         return CraftTheSunEEP.get(player).getSyncData().getHumanity();
     }
 
+    public void addPlayerHumanity(@NotNull EntityPlayer player, int value) {
+        setPlayerHumanity(player, Math.max(getPlayerHumanity(player) + value, 0));
+    }
+
     public void setPlayerHumanity(@NotNull EntityPlayer player, @Range(from = 0, to = Integer.MAX_VALUE) int humanity) {
         CraftTheSunEEP.get(player).getSyncData().setHumanity(humanity);
     }

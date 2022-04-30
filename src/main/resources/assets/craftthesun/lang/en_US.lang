@@ -5,11 +5,29 @@ item.craftthesun:estus_flask.empty.name=Empty Estus Flask
 item.craftthesun:estus_flask.infinity.name=Bottomless Estus Flask
 item.craftthesun:dark_sign.name=Dark Sign
 item.craftthesun:humanity.name=Humanity
+item.craftthesun:humanity.twin.name=Twin Humanity
 
 tooltip.craftthesun:estus_flask.count.text=Estus count %s/%s
 tooltip.craftthesun:estus_flask.infinity.text=Infinity estus
 tooltip.craftthesun:estus_flask.extra.text=This item contains some estus
 
-commands.craftthesun.usage="/cts type" for show your type, "/cts type [TYPE] <PLAYER>" for set [TYPE] to yourself or to <PLAYER>
-commands.craftthesun.type.get=Your type %s
-commands.craftthesun.type.set=Set type %s for %s
+commands.craftthesun.usage="/craftthesun <type|humanity>" for detail help
+commands.craftthesun.type.usage="/craftthesun type <list|show|set>" for detail help
+commands.craftthesun.type.list.usage="/craftthesun type list" for print all types
+commands.craftthesun.type.show.usage="/craftthesun type show [player]" for print your or [player] type
+commands.craftthesun.type.set.usage="/craftthesun type set <type> [player]" for set <type> to yourself or [player]
+commands.craftthesun.humanity.usage="/craftthesun humanity <show|set|add>" for detail help
+commands.craftthesun.humanity.show.usage="/craftthesun humanity show [player]" for print your or [player] humanity count
+commands.craftthesun.humanity.add.usage="/craftthesun humanity add <count> [player]" for add <count> to yourself or [player] humanity
+commands.craftthesun.humanity.set.usage="/craftthesun humanity set <count> [player]" for set <count> to yourself or [player] humanity
+
+commands.craftthesun.playertype.invalid="%s" is not a type, use "/craftthesun type list" for allowed values
+commands.craftthesun.type.list.success=Types: [%s]
+commands.craftthesun.type.show.success=Your type: %s
+commands.craftthesun.type.show.another.success=Type of %s: %s
+commands.craftthesun.type.set.success=Now your type is %s
+commands.craftthesun.type.set.another.success=Now type of %s is %s
+commands.craftthesun.humanity.show.success=Your humanity count: %s
+commands.craftthesun.humanity.show.another.success=Humanity count of %s: %s
+commands.craftthesun.humanity.change.success=Now your humanity count is %s
+commands.craftthesun.humanity.change.another.success=Now humanity count of %s is %s
