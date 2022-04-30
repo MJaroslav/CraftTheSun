@@ -30,6 +30,7 @@ public class PlayerEventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPlayerRespawnEventHighest(@NotNull PlayerRespawnEvent event) {
+        CommonUtils.tryMakePlayerUndead(event);
         CraftTheSunEEP.get(event.player).onPlayerRespawn(event);
     }
 

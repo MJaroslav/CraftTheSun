@@ -1,6 +1,7 @@
 item.craftthesun:estus_flask.name=Фляга Эстуса
 item.craftthesun:estus_flask.empty.name=Пустая Фляга Эстуса
 item.craftthesun:estus_flask.infinity.name=Бездонная Фляга Эстуса
+item.craftthesun:dark_sign.name=Знак Тьмы
 
 tooltip.craftthesun:estus_flask.count.text=Количество эстуса %s/%s
 tooltip.craftthesun:estus_flask.infinity.text=Бесконечный эстус

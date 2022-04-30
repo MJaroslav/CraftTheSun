@@ -40,6 +40,7 @@ public class CraftTheSunTransformer {
     public byte[] entityPlayer(byte[] basicClass) {
         val classNode = Reflectors.readClassFromBytes(basicClass);
         entityPlayer_onLivingUpdate(classNode);
+        entityPlayer_getCreatureAttribute(classNode);
         return Reflectors.writeClassToBytes(classNode, COMPUTE_MAXS + COMPUTE_FRAMES);
     }
 
@@ -65,6 +66,20 @@ public class CraftTheSunTransformer {
         val point = (MethodInsnNode) findFirstNode(methodNode, AbstractInsnNode.METHOD_INSN, "heal");
         if (point != null)
             addNaturalRegenerationCheckBefore(point, methodNode, 0);
+    }
+
+    public void entityPlayer_getCreatureAttribute(@NotNull ClassNode classNode) {
+        val methodNode = new MethodNode();
+        methodNode.name = Reflectors.unmapMethod("getCreatureAttribute");
+        methodNode.desc = "()Lnet/minecraft/entity/EnumCreatureAttribute;";
+        val list = new InsnList();
+        list.add(new VarInsnNode(ALOAD, 0));
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(CommonUtils.class),
+                "getPlayerCreatureAttribute",
+                "(Lnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/entity/EnumCreatureAttribute;", false));
+        list.add(new InsnNode(ARETURN));
+        methodNode.instructions.add(list);
+        classNode.methods.add(methodNode);
     }
 
     private void foodStats_onUpdate(@NotNull ClassNode classNode) {

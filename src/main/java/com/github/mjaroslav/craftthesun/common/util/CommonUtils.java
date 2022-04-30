@@ -9,11 +9,13 @@ import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
 import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon.CategoryHunger;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import lombok.experimental.UtilityClass;
 import lombok.val;
 import lombok.var;
-import lombok.experimental.UtilityClass;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.world.WorldServer;
@@ -55,7 +57,7 @@ public class CommonUtils {
             case 3:
                 return type == PlayerType.HOLLOW;
             case 4:
-                return type == PlayerType.HUMAN;
+                return type == PlayerType.UNDEAD_HUMAN;
         }
     }
 
@@ -91,7 +93,7 @@ public class CommonUtils {
     }
 
     public void sendPacketToTrackingPlayers(@NotNull EntityPlayer player, @NotNull IMessage message,
-            boolean sendToSender) {
+                                            boolean sendToSender) {
         val tracker = ((WorldServer) player.worldObj).getEntityTracker();
         tracker.getTrackingPlayers(player)
                 .forEach(trackedPlayer -> NetworkHandler.INSTANCE.sendTo(message, trackedPlayer));
@@ -113,7 +115,20 @@ public class CommonUtils {
             case 3:
                 return type != PlayerType.HOLLOW;
             case 4:
-                return type != PlayerType.HUMAN;
+                return type != PlayerType.UNDEAD_HUMAN;
         }
+    }
+
+    public void tryMakePlayerUndead(@NotNull PlayerEvent.PlayerRespawnEvent event) {
+        if (event.player.worldObj.isRemote)
+            return;
+        val eep = CraftTheSunEEP.get(event.player);
+        if (eep.getSyncData().getType() == PlayerType.CURSED)
+            eep.getSyncData().setType(PlayerType.HOLLOW);
+    }
+
+    public EnumCreatureAttribute getPlayerCreatureAttribute(@NotNull EntityPlayer player) {
+        return CraftTheSunEEP.get(player).getSyncData().getType().isUndead() ? EnumCreatureAttribute.UNDEAD
+                : EnumCreatureAttribute.UNDEFINED;
     }
 }

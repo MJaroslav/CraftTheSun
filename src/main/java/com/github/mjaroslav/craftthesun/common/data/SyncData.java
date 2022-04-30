@@ -14,7 +14,7 @@ public final class SyncData {
     private boolean changed = false;
 
     @NotNull
-    private PlayerType type = PlayerType.REAL_HUMAN;
+    private PlayerType type = PlayerType.HUMAN;
 
     public void setType(@NotNull PlayerType type) {
         this.type = type;
@@ -47,7 +47,7 @@ public final class SyncData {
     @RequiredArgsConstructor
     @Getter
     public enum PlayerType {
-        REAL_HUMAN(false), HOLLOW(true), HUMAN(true);
+        HUMAN(false), CURSED(false), HOLLOW(true), UNDEAD_HUMAN(true);
 
         private final boolean undead;
 
@@ -55,7 +55,7 @@ public final class SyncData {
             for (var type : values())
                 if (type.ordinal() == ordinal)
                     return type;
-            return REAL_HUMAN;
+            return HUMAN;
         }
     }
 }
