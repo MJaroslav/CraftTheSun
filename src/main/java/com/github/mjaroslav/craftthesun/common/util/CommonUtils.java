@@ -22,6 +22,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 @UtilityClass
 public class CommonUtils {
@@ -44,7 +45,7 @@ public class CommonUtils {
     }
 
     public boolean isHungerFixed(@NotNull EntityPlayer player) {
-        val type = CraftTheSunEEP.get(player).getSyncData().getType();
+        val type = getPlayerType(player);
         switch (CategoryHunger.fixHungerValueFor) {
             default:
                 return false;
@@ -102,7 +103,7 @@ public class CommonUtils {
     }
 
     public boolean isNaturalRegenerationEnabled(@NotNull EntityPlayer player) {
-        val type = CraftTheSunEEP.get(player).getSyncData().getType();
+        val type = getPlayerType(player);
         switch (CategoryCommon.disableNaturalRegenerationFor) {
             default:
                 return true;
@@ -122,13 +123,30 @@ public class CommonUtils {
     public void tryMakePlayerUndead(@NotNull PlayerEvent.PlayerRespawnEvent event) {
         if (event.player.worldObj.isRemote)
             return;
-        val eep = CraftTheSunEEP.get(event.player);
-        if (eep.getSyncData().getType() == PlayerType.CURSED)
-            eep.getSyncData().setType(PlayerType.HOLLOW);
+        if (getPlayerType(event.player) == PlayerType.CURSED)
+            setPlayerType(event.player, PlayerType.HOLLOW);
     }
 
     public EnumCreatureAttribute getPlayerCreatureAttribute(@NotNull EntityPlayer player) {
-        return CraftTheSunEEP.get(player).getSyncData().getType().isUndead() ? EnumCreatureAttribute.UNDEAD
+        return getPlayerType(player).isUndead() ? EnumCreatureAttribute.UNDEAD
                 : EnumCreatureAttribute.UNDEFINED;
+    }
+
+    @NotNull
+    public PlayerType getPlayerType(@NotNull EntityPlayer player) {
+        return CraftTheSunEEP.get(player).getSyncData().getType();
+    }
+
+    public void setPlayerType(@NotNull EntityPlayer player, @NotNull PlayerType type) {
+        CraftTheSunEEP.get(player).getSyncData().setType(type);
+    }
+
+    @Range(from = 0, to = Integer.MAX_VALUE)
+    public int getPlayerHumanity(@NotNull EntityPlayer player) {
+        return CraftTheSunEEP.get(player).getSyncData().getHumanity();
+    }
+
+    public void setPlayerHumanity(@NotNull EntityPlayer player, @Range(from = 0, to = Integer.MAX_VALUE) int humanity) {
+        CraftTheSunEEP.get(player).getSyncData().setHumanity(humanity);
     }
 }

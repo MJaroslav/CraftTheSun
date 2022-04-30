@@ -2,10 +2,8 @@ package com.github.mjaroslav.craftthesun.common.item;
 
 import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.util.List;
 import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,26 +17,22 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.github.mjaroslav.craftthesun.lib.ModInfo.prefix;
+import java.util.List;
 
-public class ItemEstusFlask extends Item {
+public class ItemEstusFlask extends ModItem {
     @SideOnly(Side.CLIENT)
     private IIcon iconFull;
 
     public ItemEstusFlask() {
-        setUnlocalizedName(prefix("estus_flask"));
-        setTextureName(prefix("estus_flask"));
+        super("estus_flask");
         setMaxStackSize(1);
-        setCreativeTab(CreativeTabs.tabBrewing);
-        setHasSubtypes(true);
-        GameRegistry.registerItem(this, "estus_flask");
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(@NotNull IIconRegister register) {
         super.registerIcons(register);
-        iconFull = register.registerIcon(prefix("estus_flask_full"));
+        iconFull = register.registerIcon(getIconString() + "_full");
     }
 
     @SideOnly(Side.CLIENT)

@@ -2,11 +2,16 @@ package com.github.mjaroslav.craftthesun;
 
 import com.github.mjaroslav.craftthesun.common.CommonProxy;
 import com.github.mjaroslav.craftthesun.common.command.CommandCraftTheSun;
+import com.github.mjaroslav.craftthesun.common.init.ModItems;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mjaroslav.mcmods.mjutils.module.AnnotationBasedConfiguration;
 import mjaroslav.mcmods.mjutils.module.ModuleSystem;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import org.jetbrains.annotations.NotNull;
 
 import static com.github.mjaroslav.craftthesun.lib.ModInfo.*;
@@ -21,6 +26,19 @@ public class CraftTheSunMod {
 
     @Mod.Instance(MOD_ID)
     public static CraftTheSunMod instance;
+
+    public static final CreativeTabs tab = new CreativeTabs(MOD_ID) {
+        @SideOnly(Side.CLIENT)
+        @Override
+        public Item getTabIconItem() {
+            return ModItems.humanity;
+        }
+
+//        @Override
+//        public ItemStack getIconItemStack() {
+//            return new ItemStack(ModItems.humanity, 1);
+//        }
+    };
 
     @Mod.EventHandler
     public void constr(@NotNull FMLConstructionEvent event) {
