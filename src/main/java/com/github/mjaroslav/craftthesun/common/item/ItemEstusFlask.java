@@ -12,6 +12,8 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +23,7 @@ import java.util.List;
 
 public class ItemEstusFlask extends ModItem {
     @SideOnly(Side.CLIENT)
-    private IIcon iconFull;
+    private IIcon iconFull, iconBaltica;
 
     public ItemEstusFlask() {
         super("estus_flask");
@@ -33,12 +35,13 @@ public class ItemEstusFlask extends ModItem {
     public void registerIcons(@NotNull IIconRegister register) {
         super.registerIcons(register);
         iconFull = register.registerIcon(getIconString() + "_full");
+        iconBaltica = register.registerIcon(getIconString() + "_baltica");
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIconFromDamage(int damage) {
-        return damage == 0 ? itemIcon : iconFull;
+        return damage == 0 ? itemIcon : damage == 3 ? iconBaltica : iconFull;
     }
 
     @Override
@@ -76,6 +79,14 @@ public class ItemEstusFlask extends ModItem {
             CommonUtils.doEstusEffects(player);
             // TODO: Do estus shit
             player.heal(8);
+            if (stack.getItemDamage() == 3) {
+                val confusion = player.getActivePotionEffect(Potion.confusion);
+                player.addPotionEffect(new PotionEffect(Potion.confusion.id, 600 +
+                        (confusion != null ? confusion.getDuration() : 0)));
+                val damageBoost = player.getActivePotionEffect(Potion.damageBoost);
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 300 +
+                        (damageBoost != null ? damageBoost.getDuration() : 0), 1));
+            }
             if (!EstusContainer.hasEstus(stack))
                 stack.setItemDamage(0);
             return stack;
@@ -127,14 +138,15 @@ public class ItemEstusFlask extends ModItem {
     @Override
     public String getUnlocalizedName(@NotNull ItemStack stack) {
         val container = EstusContainer.getFromStackOrDefault(stack);
-        return container.isInfinity() ? getUnlocalizedName() + ".infinity"
-                : container.hasEstus() ? getUnlocalizedName() : getUnlocalizedName() + ".empty";
+        return stack.getItemDamage() == 3 ? getUnlocalizedName() + ".baltica" : container.isInfinity() ?
+                getUnlocalizedName() + ".infinity" : container.hasEstus() ? getUnlocalizedName() :
+                getUnlocalizedName() + ".empty";
     }
 
     public static void refillEstusFlask(@NotNull ItemStack stack) {
         val container = EstusContainer.getFromStackOrDefault(stack);
         container.refill();
         EstusContainer.saveToStack(container, stack);
-        stack.setItemDamage(container.isInfinity() ? 2 : container.hasEstus() ? 1 : 0);
+        stack.setItemDamage(container.isInfinity() ? stack.getItemDamage() == 3 ? 3 : 2 : container.hasEstus() ? 1 : 0);
     }
 }

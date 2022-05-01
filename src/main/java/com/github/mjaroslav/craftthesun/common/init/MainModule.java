@@ -1,5 +1,6 @@
 package com.github.mjaroslav.craftthesun.common.init;
 
+import com.github.mjaroslav.craftthesun.common.handler.CraftEventHandler;
 import com.github.mjaroslav.craftthesun.common.handler.LivingEventHandler;
 import com.github.mjaroslav.craftthesun.common.handler.PlayerEventHandler;
 import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
@@ -15,6 +16,7 @@ public class MainModule implements Modular {
     public void init(@NotNull FMLInitializationEvent event) {
         PlayerEventHandler.INSTANCE.register();
         LivingEventHandler.INSTANCE.register();
+        CraftEventHandler.INSTANCE.register();
         NetworkHandler.INSTANCE.init(event);
     }
 }

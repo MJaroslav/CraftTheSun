@@ -1,6 +1,7 @@
 itemGroup.craftthesun=CraftTheSun
 
 item.craftthesun:estus_flask.name=Фляга Эстуса
+item.craftthesun:estus_flask.baltica.name=Балтика 9
 item.craftthesun:estus_flask.empty.name=Пустая Фляга Эстуса
 item.craftthesun:estus_flask.infinity.name=Бездонная Фляга Эстуса
 item.craftthesun:dark_sign.name=Знак Тьмы

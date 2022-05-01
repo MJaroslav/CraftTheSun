@@ -1,6 +1,7 @@
 itemGroup.craftthesun=CraftTheSun
 
 item.craftthesun:estus_flask.name=Estus Flask
+item.craftthesun:estus_flask.baltica.name=Baltica 9
 item.craftthesun:estus_flask.empty.name=Empty Estus Flask
 item.craftthesun:estus_flask.infinity.name=Bottomless Estus Flask
 item.craftthesun:dark_sign.name=Dark Sign
