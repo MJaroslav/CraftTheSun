@@ -1,4 +1,10 @@
 {
+    "ds.item.humanity_eaten": {
+        "category": "neutral",
+        "sounds": [
+            "ds/item/humanity_eaten"
+        ]
+    },
     "ds.estus": {
         "category": "neutral",
         "sounds": [

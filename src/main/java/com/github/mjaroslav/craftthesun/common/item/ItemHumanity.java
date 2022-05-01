@@ -73,16 +73,17 @@ public class ItemHumanity extends ModItem {
 
     @Override
     public ItemStack onEaten(@NotNull ItemStack stack, @NotNull World world, @NotNull EntityPlayer player) {
+        if (world.isRemote)
+            return stack;
         if (!player.capabilities.isCreativeMode)
             --stack.stackSize;
-        if (!world.isRemote)
-            CommonUtils.addPlayerHumanity(player, stack.getItemDamage() == 1 ? 2 : 1);
-        world.playAuxSFXAtEntity(player, 1017, (int) player.posX, (int) player.posY, (int) player.posZ, 0);
+        CommonUtils.addPlayerHumanity(player, stack.getItemDamage() == 1 ? 2 : 1);
+        world.playSoundAtEntity(player, "craftthesun:ds.item.humanity_eaten", 0.6F, world.rand.nextFloat() * 0.1F + 0.9F);
         return stack;
     }
 
     @Override
     public EnumAction getItemUseAction(@NotNull ItemStack stack) {
-        return EnumAction.eat;
+        return EnumAction.bow;
     }
 }
