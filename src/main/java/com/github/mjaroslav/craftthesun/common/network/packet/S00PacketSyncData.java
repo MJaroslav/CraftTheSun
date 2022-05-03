@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Setter
 @Getter
-public final class S00SyncData extends AbstractPacket<S00SyncData> {
+public final class S00PacketSyncData extends AbstractPacket<S00PacketSyncData> {
     private String username;
     private NBTTagCompound data;
 
@@ -29,7 +29,7 @@ public final class S00SyncData extends AbstractPacket<S00SyncData> {
     }
 
     @Override
-    public void handleClientSide(@NotNull S00SyncData message, @NotNull EntityClientPlayerMP player) {
+    public void handleClientSide(@NotNull S00PacketSyncData message, @NotNull EntityClientPlayerMP player) {
         val entityPlayer = player.worldObj.getPlayerEntityByName(message.username);
         if (entityPlayer != null)
             CraftTheSunEEP.get(entityPlayer).getSyncData().handleSyncPacket(message);

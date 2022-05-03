@@ -3,6 +3,7 @@ package com.github.mjaroslav.craftthesun.common.command;
 import com.github.mjaroslav.craftthesun.common.data.SyncData.PlayerType;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import lombok.val;
+import lombok.var;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -111,13 +112,16 @@ public class CommandCraftTheSun extends CommandBase {
                             break;
                         case "add":
                             if (len == 3) {
-                                val value = parseInt(sender, args[2]);
+                                val player = getCommandSenderAsPlayer(sender);
+                                var value = parseInt(sender, args[2]);
                                 CommonUtils.addPlayerHumanity(getCommandSenderAsPlayer(sender), value);
+                                value = CommonUtils.getPlayerHumanity(player);
                                 func_152373_a(sender, this, "commands.craftthesun.humanity.change.success", value);
                             } else if (len == 4) {
-                                val value = parseInt(sender, args[2]);
+                                var value = parseInt(sender, args[2]);
                                 val player = getPlayer(sender, args[3]);
                                 CommonUtils.addPlayerHumanity(player, value);
+                                value = CommonUtils.getPlayerHumanity(player);
                                 func_152373_a(sender, this, "commands.craftthesun.humanity.change.another.success",
                                         player.getCommandSenderName(), value);
                             } else showUsage("humanity.add");

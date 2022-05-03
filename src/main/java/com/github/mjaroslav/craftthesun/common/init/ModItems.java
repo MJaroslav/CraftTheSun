@@ -1,6 +1,6 @@
 package com.github.mjaroslav.craftthesun.common.init;
 
-import com.github.mjaroslav.craftthesun.common.item.ItemDarkSign;
+import com.github.mjaroslav.craftthesun.common.item.ItemDarksign;
 import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
 import com.github.mjaroslav.craftthesun.common.item.ItemHumanity;
 import com.github.mjaroslav.craftthesun.lib.ModInfo;
@@ -20,6 +20,6 @@ public class ModItems implements Modular {
     public void preInit(@NotNull FMLPreInitializationEvent event) {
         humanity = new ItemHumanity();
         estusFlask = new ItemEstusFlask();
-        darkSign = new ItemDarkSign();
+        darkSign = new ItemDarksign();
     }
 }

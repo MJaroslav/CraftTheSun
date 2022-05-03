@@ -1,6 +1,6 @@
 package com.github.mjaroslav.craftthesun.common.data;
 
-import com.github.mjaroslav.craftthesun.common.network.packet.S00SyncData;
+import com.github.mjaroslav.craftthesun.common.network.packet.S00PacketSyncData;
 import lombok.*;
 import net.minecraft.nbt.NBTTagCompound;
 import org.jetbrains.annotations.NotNull;
@@ -42,22 +42,22 @@ public final class SyncData {
         compound.setTag(TAG_SYNC_DATA, dataTag);
     }
 
-    public S00SyncData getSyncPacket() {
-        val result = new S00SyncData();
+    public S00PacketSyncData getSyncPacket() {
+        val result = new S00PacketSyncData();
         val data = new NBTTagCompound();
         saveToNBT(data);
         result.setData(data);
         return result;
     }
 
-    public void handleSyncPacket(@NotNull S00SyncData packet) {
+    public void handleSyncPacket(@NotNull S00PacketSyncData packet) {
         loadFromNBT(packet.getData());
     }
 
     @RequiredArgsConstructor
     @Getter
     public enum PlayerType {
-        HUMAN(false), CURSED(false), HOLLOW(true), UNDEAD_HUMAN(true);
+        HUMAN(false), HOLLOW(true), UNDEAD_HUMAN(true);
 
         private final boolean undead;
 

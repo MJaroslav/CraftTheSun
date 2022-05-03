@@ -65,7 +65,7 @@ public class ItemEstusFlask extends ModItem {
     @SideOnly(Side.CLIENT)
     @Override
     public boolean hasEffect(@NotNull ItemStack stack, int pass) {
-        return EstusContainer.getFromStackOrDefault(stack).hasEstus() && pass == 0;
+        return stack.getItemDamage() != 3 && EstusContainer.getFromStackOrDefault(stack).hasEstus() && pass == 0;
     }
 
     @Override
@@ -123,17 +123,6 @@ public class ItemEstusFlask extends ModItem {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         return stack;
     }
-
-//    @SideOnly(Side.CLIENT)
-//    @Override
-//    public void addInformation(@NotNull ItemStack stack, @NotNull EntityPlayer player, @NotNull List list,
-//            boolean isAdvanced) {
-//        val container = EstusContainer.getFromStackOrDefault(stack);
-//        if (container.isInfinity()) list.add(EnumChatFormatting.GOLD
-//                + StatCollector.translateToLocalFormatted("tooltip.craftthesun:estus_flask.infinity.text"));
-//        else list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocalFormatted(
-//                "tooltip.craftthesun:estus_flask.count.text", container.getCount(), container.getMaxCount()));
-//    }
 
     @Override
     public String getUnlocalizedName(@NotNull ItemStack stack) {

@@ -10,11 +10,16 @@ import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryClient.Categ
 import cpw.mods.fml.common.gameevent.TickEvent;
 import lombok.experimental.UtilityClass;
 import lombok.val;
+import lombok.var;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -86,5 +91,21 @@ public class ClientUtils {
             return;
         GameOverlayReplacer.drawBossBar(event.resolution);
         event.setCanceled(true);
+    }
+
+    public void renderBrokenItemStackWithNoSound(@NotNull EntityLivingBase entity, @NotNull ItemStack stack) {
+        for (var i = 0; i < 5; ++i) {
+            var vec3 = Vec3.createVectorHelper((entity.worldObj.rand.nextFloat() - 0.5D) * 0.1D,
+                    Math.random() * 0.1D + 0.1D, 0.0D);
+            vec3.rotateAroundX(-entity.rotationPitch * (float) Math.PI / 180.0F);
+            vec3.rotateAroundY(-entity.rotationYaw * (float) Math.PI / 180.0F);
+            var vec31 = Vec3.createVectorHelper((entity.worldObj.rand.nextFloat() - 0.5D) * 0.3D,
+                    (-entity.worldObj.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
+            vec31.rotateAroundX(-entity.rotationPitch * (float) Math.PI / 180.0F);
+            vec31.rotateAroundY(-entity.rotationYaw * (float) Math.PI / 180.0F);
+            vec31 = vec31.addVector(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+            entity.worldObj.spawnParticle("iconcrack_" + Item.getIdFromItem(stack.getItem()), vec31.xCoord,
+                    vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord);
+        }
     }
 }

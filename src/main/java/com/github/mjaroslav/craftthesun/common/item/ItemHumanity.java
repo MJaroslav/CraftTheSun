@@ -1,5 +1,7 @@
 package com.github.mjaroslav.craftthesun.common.item;
 
+import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
+import com.github.mjaroslav.craftthesun.common.network.packet.S01PacketBrokenItemAnimation;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -78,6 +80,7 @@ public class ItemHumanity extends ModItem {
         if (!player.capabilities.isCreativeMode)
             --stack.stackSize;
         CommonUtils.addPlayerHumanity(player, stack.getItemDamage() == 1 ? 2 : 1);
+        NetworkHandler.INSTANCE.sendToAllAround(new S01PacketBrokenItemAnimation(player, stack), player, 64);
         world.playSoundAtEntity(player, "craftthesun:ds.item.humanity_eaten", 0.6F, world.rand.nextFloat() * 0.1F + 0.9F);
         return stack;
     }

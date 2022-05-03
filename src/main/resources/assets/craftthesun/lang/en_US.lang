@@ -4,13 +4,14 @@ item.craftthesun:estus_flask.name=Estus Flask
 item.craftthesun:estus_flask.baltica.name=Baltica 9
 item.craftthesun:estus_flask.empty.name=Empty Estus Flask
 item.craftthesun:estus_flask.infinity.name=Bottomless Estus Flask
-item.craftthesun:dark_sign.name=Dark Sign
+item.craftthesun:darksign.name=Darksign
 item.craftthesun:humanity.name=Humanity
 item.craftthesun:humanity.twin.name=Twin Humanity
 
 tooltip.craftthesun:estus_flask.count.text=Estus count %s/%s
 tooltip.craftthesun:estus_flask.infinity.text=Infinity estus
 tooltip.craftthesun:estus_flask.extra.text=This item contains some estus
+tooltip.craftthesun:darksign.text=The Darksign signifies an accursed Undead
 
 commands.craftthesun.usage="/craftthesun <type|humanity>" for detail help
 commands.craftthesun.type.usage="/craftthesun type <list|show|set>" for detail help

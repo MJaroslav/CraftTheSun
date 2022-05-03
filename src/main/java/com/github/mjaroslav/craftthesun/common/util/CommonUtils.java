@@ -7,6 +7,7 @@ import com.github.mjaroslav.craftthesun.common.data.SyncData.PlayerType;
 import com.github.mjaroslav.craftthesun.common.init.ModItems;
 import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
 import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
+import com.github.mjaroslav.craftthesun.common.network.packet.S01PacketBrokenItemAnimation;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon.CategoryHunger;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -15,12 +16,16 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import lombok.var;
+import mjaroslav.mcmods.mjutils.util.UtilsInventory;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -120,11 +125,45 @@ public class CommonUtils {
         }
     }
 
+    public int findFirstItemStackInPlayerInventory(@NotNull EntityPlayer player, @NotNull ItemStack request,
+                                                   boolean withSize, boolean withDamage, boolean withNBT) {
+        for (var slot = 0; slot < player.inventory.getSizeInventory(); slot++)
+            if (UtilsInventory.itemStacksEquals(player.inventory.getStackInSlot(slot), request, false, withSize,
+                    withDamage, withDamage))
+                return slot;
+        return -1;
+    }
+
+    public int findFirstItemInPlayerInventory(@NotNull EntityPlayer player, @NotNull Item item) {
+        return findFirstItemStackInPlayerInventory(player, new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
+    }
+
+    public int findFirstItemInPlayerInventory(@NotNull EntityPlayer player, @NotNull Item item, int damage) {
+        return findFirstItemStackInPlayerInventory(player, new ItemStack(item, 1, damage));
+    }
+
+    public int findFirstItemStackInPlayerInventory(@NotNull EntityPlayer player, @NotNull ItemStack request) {
+        return findFirstItemStackInPlayerInventory(player, request, false, true, false);
+    }
+
     public void tryMakePlayerUndead(@NotNull PlayerEvent.PlayerRespawnEvent event) {
-        if (event.player.worldObj.isRemote)
+        val player = event.player;
+        val world = player.worldObj;
+        if (world.isRemote)
             return;
-        if (getPlayerType(event.player) == PlayerType.CURSED)
-            setPlayerType(event.player, PlayerType.HOLLOW);
+        val inventory = player.inventory;
+        val type = getPlayerType(player);
+        if (type == PlayerType.HUMAN) {
+            val signSlot = findFirstItemInPlayerInventory(player, ModItems.darkSign);
+            if (signSlot != -1) {
+                NetworkHandler.INSTANCE.sendToAllAround(new S01PacketBrokenItemAnimation(player,
+                        inventory.getStackInSlot(signSlot)), player, 64);
+                inventory.setInventorySlotContents(signSlot, null);
+                setPlayerType(player, PlayerType.HOLLOW);
+                world.playSoundAtEntity(player, "mob.zombie.infect", 2.0f, (world.rand.nextFloat() -
+                        world.rand.nextFloat()) * 0.2F + 1.0F);
+            }
+        }
     }
 
     public EnumCreatureAttribute getPlayerCreatureAttribute(@NotNull EntityPlayer player) {
