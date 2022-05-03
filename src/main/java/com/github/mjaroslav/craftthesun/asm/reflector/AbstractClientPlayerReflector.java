@@ -2,6 +2,7 @@ package com.github.mjaroslav.craftthesun.asm.reflector;
 
 import com.github.mjaroslav.craftthesun.common.data.SyncData;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
+import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryClient;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import lombok.val;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -18,7 +19,7 @@ public class AbstractClientPlayerReflector {
         val locationSkin = (ResourceLocation) ReflectionHelper.getPrivateValue(AbstractClientPlayer.class, instance,
                 "locationSkin");
         val type = CommonUtils.getPlayerType(instance);
-        return type == SyncData.PlayerType.HOLLOW ? locationHollowPng : locationSkin == null ? locationStevePng :
-                locationSkin;
+        return CategoryClient.replaceSkinForHollow && type == SyncData.PlayerType.HOLLOW ?
+                locationHollowPng : locationSkin == null ? locationStevePng : locationSkin;
     }
 }

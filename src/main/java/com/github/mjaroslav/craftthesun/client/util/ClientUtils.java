@@ -64,7 +64,8 @@ public class ClientUtils {
 
     public void tryTriggerFallSound(@NotNull TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START || !event.player.worldObj.isRemote
-                || !CategorySounds.enableFallSound)
+                || !CategorySounds.enableFallSound || (CategorySounds.useSoundsOnlyForUndeadPlayers
+                && !CommonUtils.getPlayerType(event.player).isUndead()))
             return;
         if (!event.player.onGround && !PLAYER_FALL_STATE.getOrDefault(event.player.getCommandSenderName(), false))
             if (!event.player.capabilities.isFlying && (event.player.posY - event.player.worldObj.getHeightValue(

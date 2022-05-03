@@ -10,10 +10,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 public class EntityEstusFX extends EntityFX {
-    private final double radius = 0.5;
     private final Vec3 rotation;
 
-    private EntityPlayer target;
+    private final EntityPlayer target;
 
     private float fadeColourRed;
     private float fadeColourGreen;
@@ -36,14 +35,14 @@ public class EntityEstusFX extends EntityFX {
     public void setColor(int color) {
         val r = ((color & 16711680) >> 16) / 255.0F;
         val g = ((color & 65280) >> 8) / 255.0F;
-        val b = ((color & 255) >> 0) / 255.0F;
+        val b = ((color & 255)) / 255.0F;
         setRBGColorF(r, g, b);
     }
 
     public void setFadeColor(int color) {
         fadeColourRed = ((color & 16711680) >> 16) / 255.0F;
         fadeColourGreen = ((color & 65280) >> 8) / 255.0F;
-        fadeColourBlue = ((color & 255) >> 0) / 255.0F;
+        fadeColourBlue = ((color & 255)) / 255.0F;
         hasFadeColour = true;
     }
 
@@ -52,6 +51,7 @@ public class EntityEstusFX extends EntityFX {
         // Bullshit
         if (target != Minecraft.getMinecraft().thePlayer)
             y += target.getEyeHeight();
+        double radius = 0.5;
         setPosition(target.posX + rotation.xCoord * radius, y, target.posZ + rotation.zCoord * radius);
     }
 

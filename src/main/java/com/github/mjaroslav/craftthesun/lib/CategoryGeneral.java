@@ -7,6 +7,10 @@ import mjaroslav.mcmods.mjutils.module.ConfigurationProperty;
 public class CategoryGeneral {
     @ConfigurationCategory(name = "client", comment = "Cosmetic settings")
     public static class CategoryClient {
+        @ConfigurationProperty(comment = "Replace skin for hollow players (craftthesun:textures/entity/hollow.png)",
+                defaultBoolean = true)
+        public static boolean replaceSkinForHollow;
+
         @ConfigurationCategory(name = "bossbar", comment = "DS like boss bar settings")
         public static class CategoryBossBar {
             @ConfigurationProperty(comment = "Replace vanilla boss bar with DS like", defaultBoolean = true)
@@ -26,6 +30,9 @@ public class CategoryGeneral {
 
             @ConfigurationProperty(comment = "Count of estus effect paricles", defaultInt = 90, minInt = 4, maxInt = 360)
             public static int particleCount;
+
+            @ConfigurationProperty(comment = "Disable of estus effect in first person mode")
+            public static boolean disableOwnEffectInFirstPerson;
         }
 
         @ConfigurationCategory(name = "sounds", comment = "Sound additionals and replacments")
@@ -38,6 +45,9 @@ public class CategoryGeneral {
 
             @ConfigurationProperty(comment = "Use DS hurt and death sounds for player", defaultBoolean = true)
             public static boolean replaceHurtAndDeathSounds;
+
+            @ConfigurationProperty(comment = "Use DS hurt/death/fall sounds only for undead players")
+            public static boolean useSoundsOnlyForUndeadPlayers;
         }
     }
 
