@@ -22,13 +22,13 @@ import org.jetbrains.annotations.UnknownNullability;
 
 @Getter
 public final class CraftTheSunEEP implements IExtendedEntityProperties {
-    private final EstusDropCache estusDropCache = new EstusDropCache();
+    private final DropCache dropCache = new DropCache();
     private final SyncData syncData = new SyncData();
 
     @Override
     public void saveNBTData(@NotNull NBTTagCompound compound) {
         val rootTag = new NBTTagCompound();
-        estusDropCache.saveToNBT(rootTag);
+        dropCache.saveToNBT(rootTag);
         syncData.saveToNBT(rootTag);
         compound.setTag(ModInfo.MOD_ID, rootTag);
     }
@@ -36,7 +36,7 @@ public final class CraftTheSunEEP implements IExtendedEntityProperties {
     @Override
     public void loadNBTData(@NotNull NBTTagCompound compound) {
         val rootTag = compound.getCompoundTag(ModInfo.MOD_ID);
-        estusDropCache.loadFromNBT(rootTag);
+        dropCache.loadFromNBT(rootTag);
         syncData.loadFromNBT(rootTag);
     }
 
@@ -45,11 +45,11 @@ public final class CraftTheSunEEP implements IExtendedEntityProperties {
     }
 
     public void onPlayerDeathEvent(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
-        estusDropCache.onPlayerDeathEvent(event, player);
+        dropCache.onPlayerDeathEvent(event, player);
     }
 
     public void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {
-        estusDropCache.onPlayerRespawn(event);
+        dropCache.onPlayerRespawn(event);
         if (event.player.worldObj.isRemote)
             return;
         val packet = syncData.getSyncPacket();

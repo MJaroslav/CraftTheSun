@@ -3,8 +3,6 @@ package com.github.mjaroslav.craftthesun.common.data;
 import com.github.mjaroslav.craftthesun.common.init.ModItems;
 import com.github.mjaroslav.craftthesun.common.item.ItemEstusFlask;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.val;
 import lombok.var;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +12,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import org.jetbrains.annotations.NotNull;
 
-public final class EstusDropCache {
-    public static final String TAG_ESTUS_DROP_CACHE = "estus_drop_cache";
+import java.util.HashMap;
+import java.util.Map;
+
+// TODO: remade by death drops canceling
+public final class DropCache {
+    public static final String TAG_DROP_CACHE = "drop_cache";
     public static final String TAG_SLOT = "slot";
     public static final String TAG_STACK = "stack";
 
@@ -23,7 +25,7 @@ public final class EstusDropCache {
 
     public void loadFromNBT(@NotNull NBTTagCompound compound) {
         CACHE.clear();
-        val cacheTag = compound.getTagList(TAG_ESTUS_DROP_CACHE, 10);
+        val cacheTag = compound.getTagList(TAG_DROP_CACHE, 10);
         for (var i = 0; i < cacheTag.tagCount(); i++) {
             val entryTag = cacheTag.getCompoundTagAt(i);
             CACHE.put(entryTag.getInteger(TAG_SLOT),
@@ -41,14 +43,14 @@ public final class EstusDropCache {
             entryTag.setTag(TAG_STACK, stackTag);
             cacheTag.appendTag(entryTag);
         });
-        compound.setTag(TAG_ESTUS_DROP_CACHE, cacheTag);
+        compound.setTag(TAG_DROP_CACHE, cacheTag);
     }
 
     void onPlayerDeathEvent(@NotNull LivingDeathEvent event, @NotNull EntityPlayer player) {
         if (!player.worldObj.isRemote)
             for (var slot = 0; slot < player.inventory.getSizeInventory(); slot++) {
                 val stack = player.inventory.getStackInSlot(slot);
-                if (stack != null && stack.getItem() == ModItems.estusFlask) {
+                if (stack != null && (stack.getItem() == ModItems.estusFlask || stack.getItem() == ModItems.darkSign)) {
                     CACHE.put(slot, stack.copy());
                     player.inventory.setInventorySlotContents(slot, null);
                 }

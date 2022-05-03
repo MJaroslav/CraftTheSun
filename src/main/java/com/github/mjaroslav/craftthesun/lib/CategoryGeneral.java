@@ -51,13 +51,19 @@ public class CategoryGeneral {
         }
     }
 
-    @ConfigurationCategory(name = "common", comment = "Common mod settinhs")
+    @ConfigurationCategory(name = "common", comment = "Common mod settings")
     public static class CategoryCommon {
         @ConfigurationProperty(comment = "Chance to add estus to mob ItemFood drop in percent, use 0 for disable", defaultInt = 5, minInt = 0, maxInt = 100)
         public static int estusInFoodDropChance;
 
         @ConfigurationProperty(comment = "Disable natural regeneration: -1 for disable feature, 0 for all players, 1 for common human players, 2 for all undead players, 3 for hollow undead players, 4 for human undead players", defaultInt = 2, minInt = -1, maxInt = 4)
         public static int disableNaturalRegenerationFor;
+
+        @ConfigurationProperty(comment = "Value to be added to village reputation for undead players", defaultInt = -17)
+        public static int villageReputationFactor;
+
+        @ConfigurationProperty(comment = "-1 for disable adding factor to undead player reputation, 0 for add factor for any undead players, 1 for add factor only for hollow players, 2 for add factor only for undead human players", defaultInt = 1, requiresWorldRestart = true)
+        public static int villageReputationFactorMode;
 
         @ConfigurationCategory(name = "hunger", comment = "Hunger system settings")
         public static class CategoryHunger {

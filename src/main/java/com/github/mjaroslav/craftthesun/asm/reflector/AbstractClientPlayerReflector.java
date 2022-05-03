@@ -15,9 +15,9 @@ public class AbstractClientPlayerReflector {
     public static final ResourceLocation locationHollowPng = new ResourceLocation("craftthesun:textures/entity/hollow.png");
 
     public static ResourceLocation getLocationSkin(@NotNull AbstractClientPlayer instance) {
-        // TODO: check for product
+        // TODO: Try do it with AT
         val locationSkin = (ResourceLocation) ReflectionHelper.getPrivateValue(AbstractClientPlayer.class, instance,
-                "locationSkin");
+                "locationSkin", "field_110312_d");
         val type = CommonUtils.getPlayerType(instance);
         return CategoryClient.replaceSkinForHollow && type == SyncData.PlayerType.HOLLOW ?
                 locationHollowPng : locationSkin == null ? locationStevePng : locationSkin;

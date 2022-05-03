@@ -146,6 +146,20 @@ public class CommonUtils {
         return findFirstItemStackInPlayerInventory(player, request, false, true, false);
     }
 
+    public boolean isPlayerHaveVillageReputationFactor(@NotNull EntityPlayer player) {
+        val type = getPlayerType(player);
+        switch (CategoryCommon.villageReputationFactorMode) {
+            default:
+                return false;
+            case 0:
+                return type.isUndead();
+            case 1:
+                return type == PlayerType.HOLLOW;
+            case 2:
+                return type == PlayerType.UNDEAD_HUMAN;
+        }
+    }
+
     public void tryMakePlayerUndead(@NotNull PlayerEvent.PlayerRespawnEvent event) {
         val player = event.player;
         val world = player.worldObj;

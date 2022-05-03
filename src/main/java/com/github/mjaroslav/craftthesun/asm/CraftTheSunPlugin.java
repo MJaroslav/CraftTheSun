@@ -2,6 +2,7 @@ package com.github.mjaroslav.craftthesun.asm;
 
 import com.github.mjaroslav.craftthesun.asm.reflector.AbstractClientPlayerReflector;
 import com.github.mjaroslav.craftthesun.asm.reflector.EntityPlayerReflector;
+import com.github.mjaroslav.craftthesun.asm.reflector.VillageReflector;
 import com.github.mjaroslav.craftthesun.asm.transformer.CraftTheSunTransformer;
 import com.github.mjaroslav.reflectors.v2.Reflectors;
 import com.github.mjaroslav.reflectors.v2.Reflectors.FMLLoadingPluginAdapter;
@@ -26,6 +27,8 @@ public class CraftTheSunPlugin extends FMLLoadingPluginAdapter implements IFMLLo
                 return CraftTheSunTransformer.foodStats(basicClass);
             case "net.minecraft.client.entity.AbstractClientPlayer":
                 return Reflectors.reflectClass(basicClass, transformedName, AbstractClientPlayerReflector.class.getName());
+            case "net.minecraft.village.Village":
+                return Reflectors.reflectClass(basicClass, transformedName, VillageReflector.class.getName());
             default:
                 return basicClass;
         }
