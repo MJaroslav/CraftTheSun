@@ -13,14 +13,10 @@ public class VillageReflector {
         val world = (World) ReflectionHelper.getPrivateValue(Village.class, instance, "worldObj", "field_75586_a");
         val player = world.getPlayerEntityByName(username);
         val value = instance.getReputationForPlayer(username);
-        if (player != null) {
-            System.out.println((CommonUtils.isPlayerHaveVillageReputationFactor(player) ? value +
-                    CategoryCommon.villageReputationFactor : value));
+        if (player != null)
             return (CommonUtils.isPlayerHaveVillageReputationFactor(player) ? value +
                     CategoryCommon.villageReputationFactor : value) <= -15;
-        } else {
-            System.out.println(value);
+        else
             return value <= -15;
-        }
     }
 }

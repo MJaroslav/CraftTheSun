@@ -1,6 +1,7 @@
 package com.github.mjaroslav.craftthesun.asm;
 
 import com.github.mjaroslav.craftthesun.asm.reflector.AbstractClientPlayerReflector;
+import com.github.mjaroslav.craftthesun.asm.reflector.EnchantmentHelperReflector;
 import com.github.mjaroslav.craftthesun.asm.reflector.EntityPlayerReflector;
 import com.github.mjaroslav.craftthesun.asm.reflector.VillageReflector;
 import com.github.mjaroslav.craftthesun.asm.transformer.CraftTheSunTransformer;
@@ -29,6 +30,8 @@ public class CraftTheSunPlugin extends FMLLoadingPluginAdapter implements IFMLLo
                 return Reflectors.reflectClass(basicClass, transformedName, AbstractClientPlayerReflector.class.getName());
             case "net.minecraft.village.Village":
                 return Reflectors.reflectClass(basicClass, transformedName, VillageReflector.class.getName());
+            case "net.minecraft.enchantment.EnchantmentHelper":
+                return Reflectors.reflectClass(basicClass, transformedName, EnchantmentHelperReflector.class.getName());
             default:
                 return basicClass;
         }
