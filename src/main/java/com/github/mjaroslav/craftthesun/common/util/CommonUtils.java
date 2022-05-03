@@ -160,6 +160,10 @@ public class CommonUtils {
         }
     }
 
+    public boolean isPlayerShouldDropInventory(@NotNull EntityPlayer player) {
+        return !getPlayerType(player).isUndead();
+    }
+
     public void tryMakePlayerUndead(@NotNull PlayerEvent.PlayerRespawnEvent event) {
         val player = event.player;
         val world = player.worldObj;
