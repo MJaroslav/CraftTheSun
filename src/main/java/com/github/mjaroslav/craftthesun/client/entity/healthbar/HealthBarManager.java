@@ -56,10 +56,9 @@ public class HealthBarManager {
                     || !healthBar.canRender(world.getTotalWorldTime()))
                 return;
             glPushMatrix();
-            val playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
-            val playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
-            val playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
-            glTranslated(-playerX, -playerY, -playerZ);
+            glTranslated(-RenderManager.instance.viewerPosX,
+                    -RenderManager.instance.viewerPosY,
+                    -RenderManager.instance.viewerPosZ);
             glPushMatrix();
             val texture2D = ClientUtils.glToggle(GL_TEXTURE_2D, false);
             val lighting = ClientUtils.glToggle(GL_LIGHTING, false);

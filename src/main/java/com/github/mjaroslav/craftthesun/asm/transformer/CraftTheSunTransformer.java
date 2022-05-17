@@ -1,6 +1,5 @@
 package com.github.mjaroslav.craftthesun.asm.transformer;
 
-import com.github.mjaroslav.craftthesun.common.data.CraftTheSunEEP;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import com.github.mjaroslav.reflectors.v4.Reflectors;
 import lombok.experimental.UtilityClass;
@@ -156,13 +155,6 @@ public class CraftTheSunTransformer {
             Reflectors.log("Error, target method not found");
             return;
         }
-//        var point = Reflectors.findFirstInstruction(methodNode);
-//        var list = new InsnList();
-//        list.add(new VarInsnNode(ALOAD, 0));
-//        list.add(new VarInsnNode(ALOAD, 1));
-//        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(CraftTheSunEEP.class),
-//                "clone", "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/entity/player/EntityPlayer;)V", false));
-//        methodNode.instructions.insertBefore(point, list);
         var point = findFirstNode(methodNode, AbstractInsnNode.METHOD_INSN, "getGameRuleBooleanValue");
         var jump = point != null ? point.getNext() : null;
         jump = point != null ? point.getNext() : null;

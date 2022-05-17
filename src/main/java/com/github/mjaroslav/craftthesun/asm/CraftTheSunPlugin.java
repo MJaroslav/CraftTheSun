@@ -35,6 +35,8 @@ public class CraftTheSunPlugin extends FMLLoadingPluginAdapter implements IFMLLo
                 return Reflectors.reflectClass(basicClass, transformedName, prefix + "EnchantmentHelperReflector");
             case "net.minecraft.entity.player.EntityPlayerMP":
                 return CraftTheSunTransformer.entityPlayerMP(basicClass);
+            case "net.minecraft.entity.monster.EntityWitch":
+                return Reflectors.reflectClass(basicClass, transformedName, prefix + "EntityWitchReflector");
             default:
                 return basicClass;
         }
