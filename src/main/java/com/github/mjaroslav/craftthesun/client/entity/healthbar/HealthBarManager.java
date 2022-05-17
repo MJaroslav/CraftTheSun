@@ -131,6 +131,8 @@ public class HealthBarManager {
     }
 
     public void syncBar(@NotNull LivingEvent.LivingUpdateEvent event) {
+        if (event.entityLiving == null)
+            return; // WTF
         val entity = event.entityLiving;
         val currentTick = entity.worldObj.getTotalWorldTime();
         if (entity instanceof IBossDisplayData) {

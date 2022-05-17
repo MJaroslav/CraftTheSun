@@ -182,6 +182,10 @@ public class CommonUtils {
                 world.playSoundAtEntity(player, "mob.zombie.infect", 2.0f, (world.rand.nextFloat() -
                         world.rand.nextFloat()) * 0.2F + 1.0F);
             }
+        } else if (type == PlayerType.UNDEAD_HUMAN) {
+            setPlayerType(player, PlayerType.HOLLOW);
+            world.playSoundAtEntity(player, "mob.zombie.infect", 2.0f, (world.rand.nextFloat() -
+                    world.rand.nextFloat()) * 0.2F + 1.0F);
         }
     }
 

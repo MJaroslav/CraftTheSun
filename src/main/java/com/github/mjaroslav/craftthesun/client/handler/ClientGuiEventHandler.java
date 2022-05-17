@@ -17,9 +17,15 @@ public class ClientGuiEventHandler {
     public static final ClientGuiEventHandler INSTANCE = new ClientGuiEventHandler();
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onRenderGameOverlayEventPreHighest(@NotNull RenderGameOverlayEvent.Pre event) {
+    public void onRenderGameOverlayPreEventHighest(@NotNull RenderGameOverlayEvent.Pre event) {
         ClientUtils.tryHideHungerBar(event);
         ClientUtils.tryReplaceBossBar(event);
+
+    }
+
+    @SubscribeEvent
+    public void onRenderGameOverlayPostEvent(@NotNull RenderGameOverlayEvent.Post event) {
+        ClientUtils.tryExtendHotBar(event);
     }
 
     public void register() {

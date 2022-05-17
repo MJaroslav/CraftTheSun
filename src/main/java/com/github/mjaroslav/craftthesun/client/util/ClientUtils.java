@@ -157,4 +157,10 @@ public class ClientUtils {
         else glDisable(glConst);
         return result;
     }
+
+    public void tryExtendHotBar(@NotNull RenderGameOverlayEvent.Post event) {
+        if (event.type != RenderGameOverlayEvent.ElementType.HOTBAR)
+            return;
+        GameOverlayReplacer.drawExtendedHotBar(event.resolution);
+    }
 }
