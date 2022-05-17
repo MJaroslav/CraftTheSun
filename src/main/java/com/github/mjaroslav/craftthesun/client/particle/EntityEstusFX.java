@@ -1,5 +1,7 @@
 package com.github.mjaroslav.craftthesun.client.particle;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import lombok.var;
 import net.minecraft.client.Minecraft;
@@ -9,6 +11,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
+@SideOnly(Side.CLIENT)
 public class EntityEstusFX extends EntityFX {
     private final Vec3 rotation;
 

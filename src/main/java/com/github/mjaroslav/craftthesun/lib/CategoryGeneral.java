@@ -11,13 +11,43 @@ public class CategoryGeneral {
                 defaultBoolean = true)
         public static boolean replaceSkinForHollow;
 
+        @ConfigurationCategory(name = "health_bar", comment = "DS like mob health bar setting")
+        public static class CategoryHealthBar {
+            @ConfigurationProperty(comment = "Enable mob health bars", defaultBoolean = true)
+            public static boolean enable;
+
+            @ConfigurationProperty(comment = "Show health bars always.")
+            public static boolean showAlways;
+
+            @ConfigurationProperty(comment = "Max distance for health bar render", defaultInt = 15, minInt = 1)
+            public static int maxRenderDistance;
+
+            @ConfigurationProperty(comment = "Show dealt damage in health bar", defaultBoolean = true)
+            public static boolean showDealtDamage;
+
+            @ConfigurationProperty(comment = "Reducing dealt damage bar speed multiplier, use 0 for disable animation", defaultDouble = 1, minDouble = 0)
+            public static double dealtDamageReduceSpeed;
+
+            @ConfigurationProperty(comment = "Health bar lifetime in ticks", defaultInt = 100)
+            public static int showTime;
+
+            @ConfigurationProperty(comment = "Dealt damage reset time in ticks", defaultInt = 15, minInt = 10)
+            public static int dealtDamageDelay;
+        }
+
         @ConfigurationCategory(name = "bossbar", comment = "DS like boss bar settings")
         public static class CategoryBossBar {
             @ConfigurationProperty(comment = "Replace vanilla boss bar with DS like", defaultBoolean = true)
             public static boolean enable;
 
-            @ConfigurationProperty(comment = "Damage reset time in ticks (yellow part of boss bar), use 0 for disable damage showing", defaultInt = 15, minInt = 0, maxInt = 200)
-            public static int damageViewDelay;
+            @ConfigurationProperty(comment = "Show dealt damage in health bar", defaultBoolean = true)
+            public static boolean showDealtDamage;
+
+            @ConfigurationProperty(comment = "Reducing dealt damage bar speed multiplier, use 0 for disable animation", defaultDouble = 1, minDouble = 0)
+            public static double dealtDamageReduceSpeed;
+
+            @ConfigurationProperty(comment = "Dealt damage reset time in ticks", defaultInt = 15)
+            public static int dealtDamageDelay;
 
             @ConfigurationProperty(comment = "Max count of boss bars for render", defaultInt = 3, minInt = 1, maxInt = 3)
             public static int maxBars;

@@ -1,10 +1,13 @@
 package com.github.mjaroslav.craftthesun.client.audio;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+@SideOnly(Side.CLIENT)
 public class PlayerFixedSound extends MovingSound {
     private final EntityPlayer player;
 

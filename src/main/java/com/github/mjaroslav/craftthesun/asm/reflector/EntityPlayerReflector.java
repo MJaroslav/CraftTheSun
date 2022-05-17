@@ -19,4 +19,14 @@ public class EntityPlayerReflector {
                 ? "craftthesun:ds.random.player.die"
                 : "game.player.die";
     }
+
+    public static int getExperiencePoints(EntityPlayer instance, EntityPlayer killer) {
+        if (instance.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory")
+                || !CommonUtils.isPlayerShouldDropInventory(instance)) {
+            return 0;
+        } else {
+            int i = instance.experienceLevel * 7;
+            return Math.min(i, 100);
+        }
+    }
 }

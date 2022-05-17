@@ -5,9 +5,13 @@ import com.github.mjaroslav.craftthesun.lib.ModInfo;
 import cpw.mods.fml.client.IModGuiFactory;
 import cpw.mods.fml.client.config.GuiConfig;
 import java.util.Set;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
+@SideOnly(Side.CLIENT)
 public class ModGuiFactory implements IModGuiFactory {
     @Override
     public void initialize(Minecraft minecraftInstance) {}

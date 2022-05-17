@@ -87,6 +87,7 @@ public final class CraftTheSunEEP implements IExtendedEntityProperties {
         return (CraftTheSunEEP) player.getExtendedProperties(ModInfo.MOD_ID);
     }
 
+    // Do not call this in event, I delegate this to ASM for some reasons
     public static void clone(@Nullable EntityPlayer original, @Nullable EntityPlayer current) {
         if (original != null && current != null) {
             val nbt = new NBTTagCompound();

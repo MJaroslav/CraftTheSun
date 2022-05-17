@@ -1,5 +1,6 @@
 package com.github.mjaroslav.craftthesun.asm.transformer;
 
+import com.github.mjaroslav.craftthesun.common.data.CraftTheSunEEP;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import com.github.mjaroslav.reflectors.v4.Reflectors;
 import lombok.experimental.UtilityClass;
@@ -155,18 +156,24 @@ public class CraftTheSunTransformer {
             Reflectors.log("Error, target method not found");
             return;
         }
-        val point = findFirstNode(methodNode, AbstractInsnNode.METHOD_INSN, "getGameRuleBooleanValue");
+//        var point = Reflectors.findFirstInstruction(methodNode);
+//        var list = new InsnList();
+//        list.add(new VarInsnNode(ALOAD, 0));
+//        list.add(new VarInsnNode(ALOAD, 1));
+//        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(CraftTheSunEEP.class),
+//                "clone", "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/entity/player/EntityPlayer;)V", false));
+//        methodNode.instructions.insertBefore(point, list);
+        var point = findFirstNode(methodNode, AbstractInsnNode.METHOD_INSN, "getGameRuleBooleanValue");
         var jump = point != null ? point.getNext() : null;
         jump = point != null ? point.getNext() : null;
         jump = jump != null ? jump.getNext() : null;
         if (point != null && jump instanceof LabelNode) {
             val targetLabel = ((LabelNode) jump);
-            val label = new LabelNode();
-            val list = new InsnList();
-            list.add(new VarInsnNode(ALOAD, 0));
+            var list = new InsnList();
+            list.add(new VarInsnNode(ALOAD, 1));
             list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(CommonUtils.class),
                     "isPlayerShouldDropInventory", "(Lnet/minecraft/entity/player/EntityPlayer;)Z", false));
-            list.add(new JumpInsnNode(IFNE, targetLabel));
+            list.add(new JumpInsnNode(IFEQ, targetLabel));
             methodNode.instructions.insertBefore(getPrev(point, 4), list);
             //methodNode.instructions.insert(targetLabel, label);
             Reflectors.log("Success");
