@@ -15,7 +15,7 @@ import net.minecraft.launchwrapper.IClassTransformer;
 public class CraftTheSunPlugin extends FMLLoadingPluginAdapter implements IFMLLoadingPlugin, IClassTransformer {
     @Override
     public String[] getASMTransformerClass() {
-        Reflectors.enabledLogs = true;
+        Reflectors.enabledLogs = "true".equals(System.getProperty("cts.logReflectors"));
         return new String[]{getClass().getName()};
     }
 

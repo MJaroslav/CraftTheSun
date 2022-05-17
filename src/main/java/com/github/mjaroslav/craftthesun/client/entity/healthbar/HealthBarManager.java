@@ -1,6 +1,7 @@
 package com.github.mjaroslav.craftthesun.client.entity.healthbar;
 
 import com.github.mjaroslav.craftthesun.client.util.ClientUtils;
+import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryClient.CategoryHealthBar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -75,7 +76,7 @@ public class HealthBarManager {
             glRotatef(180F, 0F, 1F, 0F);
             val tess = Tessellator.instance;
             tess.startDrawingQuads();
-            tess.setColorRGBA_I(0x000000, 0xFF);
+            tess.setColorRGBA_I(CommonUtils.parseHex(CategoryHealthBar.backgroundColor), 0xFF);
             tess.addVertex(8, 0, 0);
             tess.addVertex(8, 1, 0);
             tess.addVertex(-8, 1, 0);
@@ -83,13 +84,13 @@ public class HealthBarManager {
             val primary = 16 * entity.getHealth() / entity.getMaxHealth() - 8;
             if (CategoryHealthBar.showDealtDamage && healthBar.prevHealth > healthBar.health) {
                 val secondary = 16 * healthBar.getSecondaryRatio() - 8;
-                tess.setColorRGBA_I(0xFFFF00, 0xFF);
+                tess.setColorRGBA_I(CommonUtils.parseHex(CategoryHealthBar.dealtDamageColor), 0xFF);
                 tess.addVertex(secondary, 0, 0.01);
                 tess.addVertex(secondary, 1, 0.01);
                 tess.addVertex(-8, 1, 0.01);
                 tess.addVertex(-8, 0, 0.01);
             }
-            tess.setColorRGBA_I(0xFF0000, 0xFF);
+            tess.setColorRGBA_I(CommonUtils.parseHex(CategoryHealthBar.healthPointColor), 0xFF);
             tess.addVertex(primary, 0, 0.02);
             tess.addVertex(primary, 1, 0.02);
             tess.addVertex(-8, 1, 0.02);

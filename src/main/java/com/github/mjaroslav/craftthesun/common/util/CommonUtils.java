@@ -10,6 +10,7 @@ import com.github.mjaroslav.craftthesun.common.network.NetworkHandler;
 import com.github.mjaroslav.craftthesun.common.network.packet.S01PacketBrokenItemAnimation;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon;
 import com.github.mjaroslav.craftthesun.lib.CategoryGeneral.CategoryCommon.CategoryHunger;
+import com.github.mjaroslav.craftthesun.lib.ModInfo;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -209,5 +210,16 @@ public class CommonUtils {
 
     public void setPlayerHumanity(@NotNull EntityPlayer player, @Range(from = 0, to = Integer.MAX_VALUE) int humanity) {
         CraftTheSunEEP.get(player).getSyncData().setHumanity(humanity);
+    }
+
+    public int parseHex(@NotNull String value) {
+        if (value.startsWith("#"))
+            value = value.substring(1);
+        try {
+            return Integer.parseInt(value, 16);
+        } catch (NumberFormatException ignored) {
+            ModInfo.LOG.warn("Cant parse HEX string to int: " + value);
+            return 0x000000;
+        }
     }
 }

@@ -31,8 +31,17 @@ public class CategoryGeneral {
             @ConfigurationProperty(comment = "Health bar lifetime in ticks", defaultInt = 100)
             public static int showTime;
 
-            @ConfigurationProperty(comment = "Dealt damage reset time in ticks", defaultInt = 15, minInt = 10)
+            @ConfigurationProperty(comment = "Dealt damage reset time in ticks", defaultInt = 25, minInt = 10)
             public static int dealtDamageDelay;
+
+            @ConfigurationProperty(comment = "Int packed color for current health points", defaultString = "#CC0000")
+            public static String healthPointColor;
+
+            @ConfigurationProperty(comment = "Int packed color for dealt damage", defaultString = "#F7CE00")
+            public static String dealtDamageColor;
+
+            @ConfigurationProperty(comment = "Int packed color for bar background", defaultString = "#000000")
+            public static String backgroundColor;
         }
 
         @ConfigurationCategory(name = "bossbar", comment = "DS like boss bar settings")

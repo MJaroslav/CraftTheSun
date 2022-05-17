@@ -1,7 +1,6 @@
 package com.github.mjaroslav.craftthesun.client.util;
 
 import com.github.mjaroslav.craftthesun.client.audio.PlayerFixedSound;
-import com.github.mjaroslav.craftthesun.client.entity.boss.AdvancedBossStatus;
 import com.github.mjaroslav.craftthesun.client.gui.GameOverlayReplacer;
 import com.github.mjaroslav.craftthesun.common.data.EstusContainer;
 import com.github.mjaroslav.craftthesun.common.util.CommonUtils;
@@ -27,7 +26,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,19 +52,6 @@ public class ClientUtils {
         else
             event.toolTip.add(EnumChatFormatting.GOLD + StatCollector.translateToLocalFormatted(
                     "tooltip.craftthesun:estus_flask.count.text", container.getCount(), container.getMaxCount()));
-    }
-
-    public void tryUpdateBossStatuses(@NotNull LivingHurtEvent event) {
-        if (event.entityLiving instanceof IBossDisplayData) {
-            val status = AdvancedBossStatus.INSTANCE.get(event.entityLiving);
-            if (status == null)
-                return;
-            val data = (IBossDisplayData) event.entityLiving;
-            status.healthScale = data.getHealth() / data.getMaxHealth();
-            if (event.entityLiving.worldObj.getTotalWorldTime() - status.lastAttackTick > 15)
-                status.prevHealthScale = status.healthScale;
-            status.lastAttackTick = event.entityLiving.worldObj.getTotalWorldTime();
-        }
     }
 
     private final Map<String, Boolean> PLAYER_FALL_STATE = new HashMap<>();
